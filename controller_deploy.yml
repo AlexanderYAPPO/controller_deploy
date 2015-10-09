@@ -10,7 +10,7 @@
     - debug: msg="{{ global_db }}"
     - debug: msg="{{ global_skip }}"
 
-
+  roles:
     - role: ansible-mariadb
       mariadb_root_username: "{{ global_mariadb_user }}"
       mariadb_root_password: "{{ global_mariadb_password }}"
