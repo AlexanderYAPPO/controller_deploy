@@ -26,6 +26,10 @@
   file: path=/var/log/keystone state=directory mode=0755 owner={{ global_os_user }}
   sudo: yes
 
+- name: Change owners
+  shell: "chown -R {{ global_os_user }}:keystone /etc/keystone"
+  sudo: yes
+
 - name: Configure Keystone
   ini_file: >
     dest=/etc/keystone/keystone.conf
