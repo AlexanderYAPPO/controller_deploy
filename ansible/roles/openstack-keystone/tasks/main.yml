@@ -20,8 +20,8 @@
 
 - include: facts.yml
 - include: packages.yml
-#- include: git_repo.yml
-#- include: db_dependencies.yml
+- include: git_repo.yml
+- include: db_dependencies.yml
 - include: configuration.yml
 
 - include: run_keystone.yml

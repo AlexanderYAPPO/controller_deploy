@@ -26,10 +26,6 @@
   file: path=/var/log/keystone state=directory mode=0755 owner={{ global_os_user }}
   sudo: yes
 
-- name: Change owners
-  shell: "chown -R {{ global_os_user }}:keystone /etc/keystone"
-  sudo: yes
-
 - name: Configure Keystone
   ini_file: >
     dest=/etc/keystone/keystone.conf
@@ -74,4 +70,4 @@
   copy: src=roles/openstack-keystone/files/keystone-paste.ini dest=/etc/keystone/keystone-paste.ini owner={{ global_os_user }}
 
 - name: Sync Keystone database
-  command: '/bin/sh -c "keystone-manage db_sync" keystone'
+  command: '/bin/sh -c "{{ keystone_dir }}/venv/bin/keystone-manage db_sync" keystone'
