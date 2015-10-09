@@ -20,6 +20,8 @@
 #- include: packages_redhat.yml
 #  when: ansible_os_family == 'RedHat'
 
+- debug: msg="{{ ansible_os_family }}"
+
 - include: packages_debian.yml
 #  when: ansible_os_family == 'Debian'
 

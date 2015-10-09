@@ -20,7 +20,9 @@
 - name: Install keystone client
   apt: name="{{ item }}" state=present
   with_items:
-#    - keystone
+    - keystone
     - python-keystoneclient
+    - memcached
+    - python-memcache
   sudo: yes
 
