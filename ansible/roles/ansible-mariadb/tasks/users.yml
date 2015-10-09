@@ -11,7 +11,7 @@
 #  when: mariadb_users|length > 0
 
 - name: Grant Privileges
-  mysql_user: name=keystone host=localhost password={{ global_keystone_password }} priv=keystone.*:ALL,GRANT login_user={{ global_mariadb_user }} login_password={{ global_mariadb_password }}
+  mysql_user: name=keystone host=localhost password={{ global_keystone_password }} priv=keystone.*:ALL,GRANT login_user={{ mariadb_root_username }} login_password={{ mariadb_root_password }}
 
 - name: Grant Privileges2
-  mysql_user: name=keystone host="%" password={{ global_keystone_password }} priv=keystone.*:GRANT,ALL login_user={{ global_mariadb_user }} login_password={{ global_mariadb_password }}
+  mysql_user: name=keystone host="%" password={{ global_keystone_password }} priv=keystone.*:GRANT,ALL login_user={{ mariadb_root_username }} login_password={{ mariadb_root_password }}

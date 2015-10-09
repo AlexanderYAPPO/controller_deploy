@@ -10,4 +10,4 @@
 #  when: mariadb_databases|length > 0
 
 - name: Create Database Keystone
-  mysql_db: name=keystone login_user={{ global_mariadb_user }} login_password={{ global_mariadb_password }}
+  mysql_db: name=keystone login_user={{ mariadb_root_username }} login_password={{ mariadb_root_password }}
