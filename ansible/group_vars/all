@@ -6,10 +6,11 @@ global_keystone_token: admin
 global_keystone_tenant: admin
 global_keystone_auth: "http://127.0.0.1:35357/v2.0"
 global_keystone_public: "http://127.0.0.1:5000/v2.0"
+global_nova_password: tester
 global_mariadb_user: root
 global_mariadb_password: tester
 global_os_user: tester
 global_postgresql_password: tester
 global_run_type: apache # eventlet or profile or uwsgi or apache
-global_db: mysql # mysql or postgresql
+global_db: postgresql # mysql or postgresql
 global_skip: False

@@ -7,14 +7,17 @@
 
 - name: PostgreSQL | Create database
   postgresql_db:
-    name: keystone
-    owner: keystone
+    name: {{ item }}
+    owner: {{ item }}
     port: "{{postgresql_port}}"
     state: present
     login_user: "{{postgresql_admin_user}}"
     login_password: " {{global_postgresql_password }}"
   sudo: yes
   sudo_user: "{{postgresql_admin_user}}"
+  with_items:
+    - keystone
+    - nova
 
 #- name: PostgreSQL | Add hstore to the databases with the requirement
 #  sudo: yes
