@@ -20,9 +20,8 @@
 - name: Install keystone client
   apt: name="{{ item }}" state=present
   with_items:
-#    - keystone
-#    - python-keystoneclient
-#    - memcached
-#    - python-memcache
+    - libxml2-dev
+    - libxslt1-dev
+    - rabbitmq-server
   sudo: yes
 

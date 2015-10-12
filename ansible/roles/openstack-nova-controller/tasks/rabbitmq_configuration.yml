@@ -1,0 +1,9 @@
+---
+- name: Configuring RabbitMQ
+  rabbitmq_user: user={{ nova_rabbitmq_user }}
+                 password={{ nova_rabbitmq_password }}
+                 vhost=/
+                 configure_priv=.*
+                 read_priv=.*
+                 write_priv=.*
+                 state=present

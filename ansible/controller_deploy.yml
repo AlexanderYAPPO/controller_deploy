@@ -41,9 +41,9 @@
           internal_url: "http://127.0.0.1:5000/v2.0"
           admin_url: "http://127.0.0.1:35357/v2.0"
         - service_name: nova
-          public_url: "http://127.0.0.1:8774/v2/%\(tenant_id\)s"
-          internal_url: "http://127.0.0.1:8774/v2/%\(tenant_id\)s"
-          admin_url: "http://127.0.0.1:8774/v2/%\(tenant_id\)s"
+          public_url: "http://127.0.0.1:8774/v2/%(tenant_id\s"
+          internal_url: "http://127.0.0.1:8774/v2/%(tenant_id)s"
+          admin_url: "http://127.0.0.1:8774/v2/%(tenant_id)s"
 
     - role: openstack-nova-controller
       nova_dir: /home/{{ global_os_user }}/nova
