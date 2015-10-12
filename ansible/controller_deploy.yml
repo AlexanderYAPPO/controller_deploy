@@ -11,15 +11,8 @@
     - debug: msg="{{ global_skip }}"
 
   roles:
-    - role: ansible-mariadb
-      mariadb_root_username: "{{ global_mariadb_user }}"
-      mariadb_root_password: "{{ global_mariadb_password }}"
-      mariad_default_config:
-        - name: 'mysqld'
-          config:
-            - innodb_lof_file_size = 48M
-      sudo: yes
-      when: global_db == "mysql"
+    - role: postgresql
+      postgresql_admin_user: "postgres"
 
     - role: openstack-keystone
       keystone_dir: /home/{{ global_os_user }}/keystone
