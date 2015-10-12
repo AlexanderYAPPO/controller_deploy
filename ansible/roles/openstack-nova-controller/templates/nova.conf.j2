@@ -34,9 +34,9 @@ linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 [oslo_messaging_rabbit]
-rabbit_host = {{ nova_rabbit_ip }}
-rabbit_userid = {{ nova_rabbit_user }}
-rabbit_password = {{ nova_rabbit_password }}
+rabbit_host = {{ nova_rabbitmq_ip }}
+rabbit_userid = {{ nova_rabbitmq_user }}
+rabbit_password = {{ nova_rabbitmq_password }}
 
 [oslo_concurrency]
 lock_path = {{ nova_oslo_lock_path }}
