@@ -8,9 +8,8 @@
     - /var/log/keystone
 
 - name: Configure Nova Compute
-  template:
-    - src=/roles/openstack-nova-controller/templates/nova.conf.j2
-    - dest=/etc/nova/nova.conf
+  template: src=nova.conf.j2
+            dest=/etc/nova/nova.conf
 
 - name: Sync Nova database
   command: '/bin/sh -c "{{ keystone_dir }}/venv/bin/nova-manage db_sync" nova'
