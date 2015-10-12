@@ -7,8 +7,8 @@
 
 - name: PostgreSQL | Create database
   postgresql_db:
-    name: {{ item }}
-    owner: {{ item }}
+    name: "{{ item }}"
+    owner: "{{ item }}"
     port: "{{postgresql_port}}"
     state: present
     login_user: "{{postgresql_admin_user}}"

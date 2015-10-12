@@ -1,0 +1,9 @@
+---
+
+# Keystone
+nova_log_dir: /var/log/nova
+nova_default_region: regionOne
+nova_dir: /tmp/nova
+
+# Database
+nova_database_url: sqlite:////var/lib/keystone/keystone.db
