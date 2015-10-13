@@ -6,13 +6,14 @@
   with_items:
     - /etc/nova
     - /var/log/nova
+    - /var/lib/nova
 
 - name: Configure Nova Compute
   template: src=nova.conf.j2
             dest=/etc/nova/nova.conf
 
 - name: Copy api-paste.ini
-  copy: src=files/api-paste.ini dest=/etc/nova/api-paste.ini owner={{ global_os_user }}
+  copy: src=api-paste.ini dest=/etc/nova/api-paste.ini owner={{ global_os_user }}
 
 - name: Sync Nova database
   command: '/bin/sh -c "{{ nova_dir }}/venv/bin/nova-manage db sync" nova'
