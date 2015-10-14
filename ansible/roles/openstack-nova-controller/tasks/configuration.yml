@@ -22,7 +22,7 @@
   copy: src={{ nova_dir }}/etc/nova/policy.json dest=/etc/nova/policy.json owner={{ global_os_user }}
 
 - name: Copy rootwrap.d
-  copy: src={{ nova_dir }}/etc/nova/rootwrap.d dest=/etc/nova/rootwrap.d owner={{ global_os_user }}
+  copy: src={{ nova_dir }}/etc/nova/rootwrap.d dest=/etc/nova/ owner={{ global_os_user }}
 
 - name: Copy logging.conf
   copy: src={{ nova_dir }}/etc/nova/logging_sample.conf dest=/etc/nova/logging.conf owner={{ global_os_user }}

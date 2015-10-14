@@ -15,3 +15,9 @@
   shell: "{{ nova_dir }}/venv/bin/python {{ nova_dir }}/setup.py install"
   args:
     chdir: "{{ nova_dir }}"
+
+- name: copy nova-rootwrap to /usr/bin
+  copy: src={{ nova_dir }}/venv/bin/nova-rootwrap
+        dest=/usr/bin/nova-rootwrap
+        mode="u+x"
+  sudo: yes
