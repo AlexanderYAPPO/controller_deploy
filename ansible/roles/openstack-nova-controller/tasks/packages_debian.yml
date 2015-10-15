@@ -24,5 +24,6 @@
     - libxslt1-dev
     - rabbitmq-server
     - novnc
+    - git
   sudo: yes
 

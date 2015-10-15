@@ -21,7 +21,7 @@
 - include: facts.yml
 - include: packages.yml
 - include: git_repo.yml
-- include: db_dependencies.yml
+- include: python_dependencies.yml
 - include: configuration.yml
 
 - include: run_keystone.yml
@@ -36,7 +36,7 @@
 - include: run_profile.yml
   when: global_run_type == "profile"
 
-- pause: seconds=2
+- pause: seconds=1
 
 - include: endpoints.yml
 - include: tenants.yml

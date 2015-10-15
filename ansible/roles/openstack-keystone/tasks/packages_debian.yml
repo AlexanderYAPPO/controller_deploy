@@ -20,9 +20,37 @@
 - name: Install keystone client
   apt: name="{{ item }}" state=present
   with_items:
-#    - keystone
     - python-keystoneclient
     - memcached
     - python-memcache
+    - build-essential
+    - libssl-dev
+    - libffi-dev
+    - python-dev
+    - libmariadbclient-dev
+    - git
   sudo: yes
 
+- name: Install PostgreSQL dependencies
+  apt: name={{ item }}
+  with_items:
+    - python-psycopg2
+    - libpq-dev
+  sudo: yes
+  when: global_db == "postgresql"
+
+- name: install MySQL-python
+  pip: name=MySQL-python virtualenv={{ keystone_dir }}/venv
+  when: global_db == "mysql"
+
+- name: install dependencies
+  apt: name="{{ item }}" state=present
+  with_items:
+
+- name: download pip installation script
+  get_url: url=https://bootstrap.pypa.io/get-pip.py dest=~
+  sudo: yes
+
+- name: install pip
+  command: "python ~/get-pip.py"
+  sudo: yes
