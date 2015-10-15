@@ -22,7 +22,6 @@
   with_items:
     - libxml2-dev
     - libxslt1-dev
-    - git
   sudo: yes
 
 - name: Install novnc

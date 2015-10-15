@@ -9,6 +9,8 @@
       sudo: yes
 
   roles:
+    - role: common_dependencies
+
     - role: postgresql
       postgresql_admin_user: "postgres"
 

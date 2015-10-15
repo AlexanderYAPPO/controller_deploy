@@ -16,24 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-- name: Install keystone client
-  apt: name="{{ item }}" state=present
+- name: Install novnc
+  apt: name=novnc state=present
   with_items:
-    - python-keystoneclient
-    - memcached
-    - python-memcache
-    - build-essential
-    - libssl-dev
-    - libffi-dev
-    - python-dev
-    - libmariadbclient-dev
+    - git
+
+- name: download pip installation script
+  get_url: url=https://bootstrap.pypa.io/get-pip.py dest=~
   sudo: yes
 
-- name: Install PostgreSQL dependencies
-  apt: name={{ item }}
-  with_items:
-    - python-psycopg2
-    - libpq-dev
+- name: install pip
+  command: "python ~/get-pip.py"
   sudo: yes
-  when: global_db == "postgresql"

@@ -17,23 +17,11 @@
 # limitations under the License.
 #
 
-- name: Install keystone client
-  apt: name="{{ item }}" state=present
-  with_items:
-    - python-keystoneclient
-    - memcached
-    - python-memcache
-    - build-essential
-    - libssl-dev
-    - libffi-dev
-    - python-dev
-    - libmariadbclient-dev
-  sudo: yes
 
-- name: Install PostgreSQL dependencies
-  apt: name={{ item }}
-  with_items:
-    - python-psycopg2
-    - libpq-dev
-  sudo: yes
-  when: global_db == "postgresql"
+- name: Set service facts
+  set_fact: keystone_service="keystone"
+  when: ansible_os_family == 'Debian'
+
+- name: Set service facts
+  set_fact: keystone_service="openstack-keystone"
+  when: ansible_os_family == 'RedHat'
