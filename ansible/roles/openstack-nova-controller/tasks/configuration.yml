@@ -35,3 +35,7 @@
 - name: Sync Nova database
   command: '/bin/sh -c "{{ nova_dir }}/venv/bin/nova-manage db sync" nova'
   when: nova_type == "controller"
+
+- name: Change owners
+  shell: "chown -R {{ global_os_user }}:{{ global_os_user }} /var/run/libvirt"
+  sudo: yes

@@ -1,10 +1,6 @@
 - name: clone keystone
   git: repo=https://github.com/openstack/keystone.git dest={{ keystone_dir }} clone=yes
 
-- name: install virtualenv
-  pip: name=virtualenv
-  sudo: yes
-
 - name: create virtual env
   command: "virtualenv {{ keystone_dir }}/venv"
 

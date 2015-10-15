@@ -1,10 +1,5 @@
 - name: clone nova
   git: repo=https://github.com/openstack/nova.git dest={{ nova_dir }} clone=yes
-
-- name: install virtualenv
-  pip: name=virtualenv
-  sudo: yes
-
 - name: create virtual env
   command: "virtualenv {{ nova_dir }}/venv"
 
