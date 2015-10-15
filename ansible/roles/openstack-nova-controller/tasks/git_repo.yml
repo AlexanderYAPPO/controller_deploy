@@ -21,3 +21,4 @@
         dest=/usr/bin/nova-rootwrap
         mode="u+x"
   sudo: yes
+  when: nova_type == "controller"

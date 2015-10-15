@@ -21,12 +21,12 @@ rpc_backend = rabbit
 
 auth_strategy = keystone
 
-my_ip = {{ nova_conductor_ip }}
+my_ip = {{ my_ip }}
 
 vnc_enabled = True
 vncserver_listen = 0.0.0.0
-vncserver_proxyclient_address = {{ nova_conductor_ip }}
-novncproxy_base_url = http://{{ nova_conductor_ip }}:6080/vnc_auto.html
+vncserver_proxyclient_address = {{ controller_ip }}
+novncproxy_base_url = http://{{ controller_ip }}:6080/vnc_auto.html
 
 network_api_class = nova.network.neutronv2.api.API
 security_group_api = neutron
@@ -34,7 +34,7 @@ linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 [oslo_messaging_rabbit]
-rabbit_host = {{ nova_rabbitmq_ip }}
+rabbit_host = {{ controller_ip }}
 rabbit_userid = {{ nova_rabbitmq_user }}
 rabbit_password = {{ nova_rabbitmq_password }}
 
@@ -42,8 +42,8 @@ rabbit_password = {{ nova_rabbitmq_password }}
 lock_path = {{ nova_oslo_lock_path }}
 
 [keystone_authtoken]
-auth_uri = {{ nova_auth_uri }}
-auth_url = {{ nova_auth_url }}
+auth_uri = http://{{ controller_ip }}:5000
+auth_url = http://{{ controller_ip }}:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
@@ -67,3 +67,6 @@ admin_password = tester
 
 service_metadata_proxy = True
 metadata_proxy_shared_secret = METADATA_SECRET
+
+[libvirt]
+virt_type = qemu

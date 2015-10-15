@@ -8,3 +8,4 @@
                  write_priv=.*
                  state=present
   sudo: yes
+  when: nova_type == "controller"

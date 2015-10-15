@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+
+  pre_tasks:
+    - apt: update_cache=yes
+      sudo: yes
+    - apt: name=git state=present
+      sudo: yes
+
+  roles:
+    - role: postgresql
+      postgresql_admin_user: "postgres"
+
+    - role: openstack-nova-controller
+      nova_dir: /home/{{ global_os_user }}/nova
+      nova_database_url: "{{ global_db }}://nova:{{ global_nova_password }}@localhost/nova"
+      nova_type: "compute"

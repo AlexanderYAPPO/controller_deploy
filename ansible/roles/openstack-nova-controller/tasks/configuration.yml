@@ -8,24 +8,26 @@
     - /var/log/nova
     - /var/lib/nova
 
-- name: Configure Nova Compute
-  template: src=nova.conf.j2
-            dest=/etc/nova/nova.conf
+- name: Configure Nova
+  template: src=nova.conf.j2 dest=/etc/nova/nova.conf
 
 - name: Copy api-paste.ini
   copy: src={{ nova_dir }}/etc/nova/api-paste.ini dest=/etc/nova/api-paste.ini owner={{ global_os_user }}
 
 - name: Copy rootwrap.conf
   copy: src={{ nova_dir }}/etc/nova/rootwrap.conf dest=/etc/nova/rootwrap.conf owner={{ global_os_user }}
+  when: nova_type == "controller"
 
 - name: Copy policy.json
   copy: src={{ nova_dir }}/etc/nova/policy.json dest=/etc/nova/policy.json owner={{ global_os_user }}
 
 - name: Copy rootwrap.d
   copy: src={{ nova_dir }}/etc/nova/rootwrap.d dest=/etc/nova/ owner={{ global_os_user }}
+  when: nova_type == "controller"
 
 - name: Copy logging.conf
   copy: src={{ nova_dir }}/etc/nova/logging_sample.conf dest=/etc/nova/logging.conf owner={{ global_os_user }}
 
 - name: Sync Nova database
   command: '/bin/sh -c "{{ nova_dir }}/venv/bin/nova-manage db sync" nova'
+  when: nova_type == "controller"

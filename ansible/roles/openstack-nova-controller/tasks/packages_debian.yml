@@ -22,8 +22,13 @@
   with_items:
     - libxml2-dev
     - libxslt1-dev
-    - rabbitmq-server
-    - novnc
     - git
   sudo: yes
 
+- name: Install novnc
+  apt: name=novnc state=present
+  with_items:
+    - novnc
+    - rabbitmq-server
+  sudo: yes
+  when: nova_type == "controller"
