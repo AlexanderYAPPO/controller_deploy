@@ -43,10 +43,6 @@
   pip: name=MySQL-python virtualenv={{ keystone_dir }}/venv
   when: global_db == "mysql"
 
-- name: install dependencies
-  apt: name="{{ item }}" state=present
-  with_items:
-
 - name: download pip installation script
   get_url: url=https://bootstrap.pypa.io/get-pip.py dest=~
   sudo: yes
