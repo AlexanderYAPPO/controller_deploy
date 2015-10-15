@@ -23,17 +23,4 @@
     - python-keystoneclient
     - memcached
     - python-memcache
-    - build-essential
-    - libssl-dev
-    - libffi-dev
-    - python-dev
-    - libmariadbclient-dev
   sudo: yes
-
-- name: Install PostgreSQL dependencies
-  apt: name={{ item }}
-  with_items:
-    - python-psycopg2
-    - libpq-dev
-  sudo: yes
-  when: global_db == "postgresql"

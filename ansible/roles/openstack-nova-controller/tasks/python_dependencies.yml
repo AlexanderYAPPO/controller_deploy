@@ -3,3 +3,7 @@
 - name: install psycopg2
   pip: name=psycopg2 virtualenv={{ nova_dir }}/venv
   when: global_db == "postgresql"
+
+- name: install libvirt-python
+  pip: name=libvirt-python virtualenv={{ nova_dir }}/venv
+  when: nova_type == "compute"

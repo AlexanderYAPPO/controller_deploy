@@ -11,6 +11,10 @@
 - name: Configure Nova
   template: src=nova.conf.j2 dest=/etc/nova/nova.conf
 
+- name: Copy Nova compute config
+  copy: src=nova-compute.conf dest=/etc/nova/nova-compute.conf owner={{ global_os_user }}
+  when: nova_type == "compute"
+
 - name: Copy api-paste.ini
   copy: src={{ nova_dir }}/etc/nova/api-paste.ini dest=/etc/nova/api-paste.ini owner={{ global_os_user }}
 
