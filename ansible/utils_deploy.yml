@@ -20,6 +20,7 @@
         - { role: glance, db: glance }
 
     - role: openstack-keystone
+      keystone_part: client
       keystone_hostname: "{{ global_keystone_hostname }}"
       keystone_admin_token: "{{ global_keystone_token }}"
       keystone_admin_port: 35357

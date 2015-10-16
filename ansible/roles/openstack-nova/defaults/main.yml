@@ -1,7 +1,6 @@
 ---
 
 controller_ip: 127.0.0.1
-management_ip: 127.0.0.1
 my_ip: 127.0.0.1
 nova_type: controller #controller or compute
 
@@ -11,11 +10,8 @@ nova_default_region: RegionOne
 nova_dir: /tmp/nova
 nova_state_path: /var/lib/nova
 nova_lock_path: /var/lock/nova
-nova_conductor_ip: 127.0.0.1
 
 # Keystone
-nova_auth_uri: http://127.0.0.1:5000
-nova_auth_url: http://127.0.0.1:35357
 nova_auth_username: nova
 nova_auth_password: tester
 

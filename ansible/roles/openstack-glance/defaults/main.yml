@@ -1,20 +1,16 @@
 ---
 
 controller_ip: 127.0.0.1
-management_ip: 127.0.0.1
 my_ip: 127.0.0.1
-nova_type: controller #controller or compute
 
 # Glance
-nova_log_dir: /var/log/glance
-nova_default_region: RegionOne
-nova_dir: /tmp/glance
+glance_log_dir: /var/log/glance
+glance_default_region: RegionOne
+glance_dir: /tmp/glance
 
 # Keystone
-nova_auth_uri: http://127.0.0.1:5000
-nova_auth_url: http://127.0.0.1:35357
-nova_auth_username: glance
-nova_auth_password: tester
+glance_auth_username: glance
+glance_auth_password: tester
 
 # Database
 nova_database_url: sqlite:////var/lib/glance/glance.db
