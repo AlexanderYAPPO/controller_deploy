@@ -19,10 +19,8 @@
 #
 
 - include: facts.yml
-  when: keystone_part == "server"
 
 - include: packages.yml
-  when: keystone_part == "server"
 
 - include: git_repo.yml
   when: keystone_part == "server"

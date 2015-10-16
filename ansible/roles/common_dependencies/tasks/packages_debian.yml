@@ -1,6 +1,6 @@
 ---
 
-- name: Install novnc
+- name: Install dependencies
   apt: name={{ item }} state=present
   with_items:
     - git
@@ -13,7 +13,6 @@
 - name: Install PostgreSQL dependencies
   apt: name={{ item }}
   with_items:
-#    - python-psycopg2
     - libpq-dev
   sudo: yes
   when: global_db == "postgresql"
