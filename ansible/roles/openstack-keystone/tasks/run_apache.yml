@@ -6,7 +6,7 @@
   sudo: yes
   
 - name: Change Apache config
-  lineinfile: dest=/etc/apache2/apache2.conf line="ServerName {{ global_keystone_auth }}"
+  lineinfile: dest=/etc/apache2/apache2.conf line="ServerName {{ keystone_protocol }}://{{ keystone_hostname }}:{{ keystone_admin_port }}/v2.0"
   sudo: yes
 
 - name: Copy WSGI config

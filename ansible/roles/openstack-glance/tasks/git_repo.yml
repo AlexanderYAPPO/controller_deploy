@@ -1,19 +1,12 @@
-- name: clone nova
-  git: repo=https://github.com/openstack/nova.git dest={{ nova_dir }} clone=yes
+- name: Clone Glance
+  git: repo=https://github.com/openstack/glance.git dest={{ nova_dir }} clone=yes
 - name: create virtual env
-  command: "virtualenv {{ nova_dir }}/venv"
+  command: "virtualenv {{ glance_dir }}/venv"
 
-- name: install requirements
-  pip: requirements={{ nova_dir }}/requirements.txt virtualenv={{ nova_dir }}/venv extra_args='--no-cache-dir'
-
-- name: setup.py install
-  shell: "{{ nova_dir }}/venv/bin/python {{ nova_dir }}/setup.py install"
-  args:
-    chdir: "{{ nova_dir }}"
-
-- name: copy nova-rootwrap to /usr/bin
-  copy: src={{ nova_dir }}/venv/bin/nova-rootwrap
-        dest=/usr/bin/nova-rootwrap
-        mode="u+x"
-  sudo: yes
-  when: nova_type == "controller"
+#- name: install requirements
+#  pip: requirements={{ glance_dir }}/requirements.txt virtualenv={{ glance_dir }}/venv extra_args='--no-cache-dir'
+#
+#- name: setup.py install
+#  shell: "{{ glance_dir }}/venv/bin/python {{ glance_dir }}/setup.py install"
+#  args:
+#    chdir: "{{ glance_dir }}"

@@ -1,0 +1,41 @@
+---
+
+- hosts: all
+
+  pre_tasks:
+    - apt: update_cache=yes
+      sudo: yes
+    - apt: name=git state=present
+      sudo: yes
+
+  roles:
+    - role: common_dependencies
+
+    - role: postgresql
+      postgresql_admin_user: "postgres"
+      postgresql_databases: [glance]
+      postgresql_users:
+        - { name: glance, pass: "{{ global_glance_password }}" }
+      postgresql_user_privileges:
+        - { role: glance, db: glance }
+
+    - role: openstack-keystone
+      keystone_hostname: "{{ global_keystone_hostname }}"
+      keystone_admin_token: "{{ global_keystone_token }}"
+      keystone_admin_port: 35357
+      keystone_port: 5000
+      keystone_users:
+        - { name: "{{ global_glance_user }}", password: "{{ global_glance_password }}", tenant: service }
+      keystone_roles:
+        - { name: admin, user: "{{ global_glance_user }}", tenant: service }
+      keystone_services:
+        - { name: glance, service_type: image }
+      keystone_endpoints:
+        - service_name: glance
+          public_url: "http://{{ global_my_ip }}:9292"
+          internal_url: "http://{{ global_my_ip }}:9292"
+          admin_url: "http://{{ global_my_ip }}:9292"
+
+    - role: openstack-glance
+      glance_dir: /home/{{ global_os_user }}/glance
+      glance_database_url: "{{ global_db }}://glance:{{ global_glance_password }}@localhost/glance"

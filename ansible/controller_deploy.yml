@@ -44,15 +44,16 @@
         - { name: nova, service_type: compute }
       keystone_endpoints:
         - service_name: keystone
-          public_url: "http://127.0.0.1:5000/v2.0"
-          internal_url: "http://127.0.0.1:5000/v2.0"
-          admin_url: "http://127.0.0.1:35357/v2.0"
+          public_url: "http://{{ global_my_ip }}:5000/v2.0"
+          internal_url: "http://{{ global_my_ip }}:5000/v2.0"
+          admin_url: "http://{{ global_my_ip }}:35357/v2.0"
         - service_name: nova
-          public_url: "http://127.0.0.1:8774/v2/%(tenant_id)s"
-          internal_url: "http://127.0.0.1:8774/v2/%(tenant_id)s"
-          admin_url: "http://127.0.0.1:8774/v2/%(tenant_id)s"
+          public_url: "http://{{ global_my_ip }}:8774/v2/%(tenant_id)s"
+          internal_url: "http://{{ global_my_ip }}:8774/v2/%(tenant_id)s"
+          admin_url: "http://{{ global_my_ip }}:8774/v2/%(tenant_id)s"
 
     - role: openstack-nova
       nova_dir: /home/{{ global_os_user }}/nova
       nova_database_url: "{{ global_db }}://nova:{{ global_nova_password }}@localhost/nova"
+      my_ip: "{{ global_my_ip }}"
       nova_type: "controller"

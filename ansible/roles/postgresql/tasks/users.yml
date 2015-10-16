@@ -15,6 +15,6 @@
     login_password: "{{ global_postgresql_password }}"
   sudo: yes
   sudo_user: "{{postgresql_admin_user}}"
-  with_items: postgres_users
+  with_items: postgresql_users
 #    - { name: 'keystone', password: '{{ global_keystone_password }}' }
 #    - { name: 'nova', password: '{{ global_nova_password }}' }

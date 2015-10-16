@@ -33,10 +33,11 @@ keystone_users: []
 keystone_roles: []
 keystone_services: []
 keystone_endpoints: []
-keystone_default_region: regionOne
+keystone_default_region: RegionOne
 keystone_cgi_dir: /var/www/cgi-bin/keystone
 keystone_profile_result_path: /tmp/keystone_profile.prof
 keystone_dir: /tmp/keystone
+keystone_part: server #server or client
 
 # Database
 keystone_database_url: sqlite:////var/lib/keystone/keystone.db

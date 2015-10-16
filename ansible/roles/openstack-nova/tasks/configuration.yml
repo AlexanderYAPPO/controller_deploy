@@ -39,3 +39,4 @@
 - name: Change owners
   shell: "chown -R {{ global_os_user }}:{{ global_os_user }} /var/run/libvirt"
   sudo: yes
+  when: nova_type == "compute"

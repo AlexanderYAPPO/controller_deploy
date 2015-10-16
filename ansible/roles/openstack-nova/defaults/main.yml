@@ -7,7 +7,7 @@ nova_type: controller #controller or compute
 
 # Nova
 nova_log_dir: /var/log/nova
-nova_default_region: regionOne
+nova_default_region: RegionOne
 nova_dir: /tmp/nova
 nova_state_path: /var/lib/nova
 nova_lock_path: /var/lock/nova

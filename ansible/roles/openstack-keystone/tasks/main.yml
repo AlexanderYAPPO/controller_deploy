@@ -19,24 +19,34 @@
 #
 
 - include: facts.yml
+  when: keystone_part == "server"
+
 - include: packages.yml
+  when: keystone_part == "server"
+
 - include: git_repo.yml
+  when: keystone_part == "server"
+
 - include: python_dependencies.yml
+  when: keystone_part == "server"
+
 - include: configuration.yml
+  when: keystone_part == "server"
 
 - include: run_keystone.yml
-  when: global_run_type == "eventlet"
+  when: global_run_type == "eventlet" and keystone_part == "server"
 
 - include: run_uwsgi.yml
-  when: global_run_type == "uwsgi"
+  when: global_run_type == "uwsgi" and keystone_part == "server"
 
 - include: run_apache.yml
-  when: global_run_type == "apache"
+  when: global_run_type == "apache" and keystone_part == "server"
 
 - include: run_profile.yml
-  when: global_run_type == "profile"
+  when: global_run_type == "profile" and keystone_part == "server"
 
 - pause: seconds=1
+  when: keystone_part == "server"
 
 - include: endpoints.yml
 - include: tenants.yml
