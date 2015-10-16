@@ -14,7 +14,7 @@
     - role: postgresql
       postgresql_admin_user: "postgres"
 
-    - role: openstack-nova-controller
+    - role: openstack-nova
       nova_dir: /home/{{ global_os_user }}/nova
       nova_database_url: "{{ global_db }}://nova:{{ global_nova_password }}@localhost/nova"
       nova_type: "compute"

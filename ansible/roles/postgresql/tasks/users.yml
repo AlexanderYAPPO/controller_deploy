@@ -8,13 +8,13 @@
 - name: PostgreSQL | Create users
   postgresql_user:
     name: "{{ item.name }}"
-    password: "{{ item.password }}"
+    password: "{{ item.pass }}"
     port: "{{postgresql_port}}"
     state: present
     login_user: "{{postgresql_admin_user}}"
     login_password: "{{ global_postgresql_password }}"
   sudo: yes
   sudo_user: "{{postgresql_admin_user}}"
-  with_items:
-    - { name: 'keystone', password: '{{ global_keystone_password }}' }
-    - { name: 'nova', password: '{{ global_nova_password }}' }
+  with_items: postgres_users
+#    - { name: 'keystone', password: '{{ global_keystone_password }}' }
+#    - { name: 'nova', password: '{{ global_nova_password }}' }

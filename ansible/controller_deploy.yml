@@ -13,6 +13,13 @@
 
     - role: postgresql
       postgresql_admin_user: "postgres"
+      postgresql_databases: [nova, keystone]
+      postgresql_users:
+        - { name: nova, pass: "{{ global_nova_password }}" }
+        - { name: keystone, pass: "{{ global_keystone_password }}" }
+      postgresql_user_privileges:
+        - { role: nova, db: nova }
+        - { role: keystone, db: keystone }
 
     - role: openstack-keystone
       keystone_dir: /home/{{ global_os_user }}/keystone
@@ -45,7 +52,7 @@
           internal_url: "http://127.0.0.1:8774/v2/%(tenant_id)s"
           admin_url: "http://127.0.0.1:8774/v2/%(tenant_id)s"
 
-    - role: openstack-nova-controller
+    - role: openstack-nova
       nova_dir: /home/{{ global_os_user }}/nova
       nova_database_url: "{{ global_db }}://nova:{{ global_nova_password }}@localhost/nova"
       nova_type: "controller"

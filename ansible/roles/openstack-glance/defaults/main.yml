@@ -1,0 +1,38 @@
+---
+
+controller_ip: 127.0.0.1
+management_ip: 127.0.0.1
+my_ip: 127.0.0.1
+nova_type: controller #controller or compute
+
+# Nova
+nova_log_dir: /var/log/nova
+nova_default_region: regionOne
+nova_dir: /tmp/nova
+nova_state_path: /var/lib/nova
+nova_lock_path: /var/lock/nova
+nova_conductor_ip: 127.0.0.1
+
+# Keystone
+nova_auth_uri: http://127.0.0.1:5000
+nova_auth_url: http://127.0.0.1:35357
+nova_auth_username: nova
+nova_auth_password: tester
+
+# Glance
+nova_glance_ip: 10.10.10.121
+
+# Neutron
+nova_neutron_url: http://127.0.0.1:9696
+nova_admin_auth_url: http://10.10.10.121:35357/v2.0
+
+# Database
+nova_database_url: sqlite:////var/lib/keystone/keystone.db
+
+# RabbitMQ
+nova_rabbitmq_ip: 127.0.0.1
+nova_rabbitmq_user: openstack
+nova_rabbitmq_password: tester
+
+# Oslo
+nova_oslo_lock_path: /var/lib/nova/tmp
