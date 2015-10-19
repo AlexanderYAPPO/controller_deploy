@@ -40,3 +40,6 @@
     - role: openstack-glance
       glance_dir: /home/{{ global_os_user }}/glance
       glance_database_url: "{{ global_db }}://glance:{{ global_glance_password }}@localhost/glance"
+      controller_ip: "{{ global_my_ip }}"
+      glance_auth_username: "glance"
+      glance_auth_password: "tester"

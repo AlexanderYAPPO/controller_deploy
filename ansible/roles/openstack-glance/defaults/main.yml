@@ -13,4 +13,4 @@ glance_auth_username: glance
 glance_auth_password: tester
 
 # Database
-nova_database_url: sqlite:////var/lib/glance/glance.db
+glance_database_url: sqlite:////var/lib/glance/glance.db

@@ -1,41 +1,26 @@
 ---
 
-- name: Create dir for Nova
+- name: Create dir for Glance
   file: path={{ item }} state=directory mode=0755 owner={{ global_os_user }}
   sudo: yes
   with_items:
-    - /etc/nova
-    - /var/log/nova
-    - /var/lib/nova
+    - /etc/glance
+    - /var/log/glance
+    - /var/lib/glance
 
-- name: Configure Nova
-  template: src=nova.conf.j2 dest=/etc/nova/nova.conf
+- name: Configure Glance
+  template: src="{{ item }}.j2" dest=/etc/glance/{{ tem }}
+  with_items:
+    - glance-api.conf
+    - glance-registry.conf
 
 - name: Copy Nova compute config
-  copy: src=nova-compute.conf dest=/etc/nova/nova-compute.conf owner={{ global_os_user }}
-  when: nova_type == "compute"
+  copy: src={{ item }} dest=/etc/glance/{{ item }} owner={{ global_os_user }}
+  with_items:
+    - glance-api-paste.ini
+    - glance-registry-paste.ini
+    - policy.json
+    - schema-image.json
 
-- name: Copy api-paste.ini
-  copy: src={{ nova_dir }}/etc/nova/api-paste.ini dest=/etc/nova/api-paste.ini owner={{ global_os_user }}
-
-- name: Copy rootwrap.conf
-  copy: src={{ nova_dir }}/etc/nova/rootwrap.conf dest=/etc/nova/rootwrap.conf owner={{ global_os_user }}
-  when: nova_type == "controller"
-
-- name: Copy policy.json
-  copy: src={{ nova_dir }}/etc/nova/policy.json dest=/etc/nova/policy.json owner={{ global_os_user }}
-
-- name: Copy rootwrap.d
-  copy: src={{ nova_dir }}/etc/nova/rootwrap.d dest=/etc/nova/ owner={{ global_os_user }}
-  when: nova_type == "controller"
-
-- name: Copy logging.conf
-  copy: src={{ nova_dir }}/etc/nova/logging_sample.conf dest=/etc/nova/logging.conf owner={{ global_os_user }}
-
-- name: Sync Nova database
-  command: '/bin/sh -c "{{ nova_dir }}/venv/bin/nova-manage db sync" nova'
-  when: nova_type == "controller"
-
-- name: Change owners
-  shell: "chown -R {{ global_os_user }}:{{ global_os_user }} /var/run/libvirt"
-  sudo: yes
+- name: Sync Glance database
+  command: '/bin/sh -c "{{ nova_dir }}/venv/bin/glance-manage db_sync" glance'

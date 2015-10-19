@@ -1,12 +1,13 @@
 - name: Clone Glance
-  git: repo=https://github.com/openstack/glance.git dest={{ nova_dir }} clone=yes
+  git: repo=https://github.com/openstack/glance.git dest={{ glance_dir }} clone=yes
+
 - name: create virtual env
   command: "virtualenv {{ glance_dir }}/venv"
 
-#- name: install requirements
-#  pip: requirements={{ glance_dir }}/requirements.txt virtualenv={{ glance_dir }}/venv extra_args='--no-cache-dir'
-#
-#- name: setup.py install
-#  shell: "{{ glance_dir }}/venv/bin/python {{ glance_dir }}/setup.py install"
-#  args:
-#    chdir: "{{ glance_dir }}"
+- name: install requirements
+  pip: requirements={{ glance_dir }}/requirements.txt virtualenv={{ glance_dir }}/venv extra_args='--no-cache-dir'
+
+- name: setup.py install
+  shell: "{{ glance_dir }}/venv/bin/python {{ glance_dir }}/setup.py install"
+  args:
+    chdir: "{{ glance_dir }}"
