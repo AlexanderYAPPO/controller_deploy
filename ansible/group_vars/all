@@ -1,5 +1,8 @@
 ---
 
+global_cinder_user: cinder
+global_cinder_password: tester
+
 global_glance_user: glance
 global_glance_password: tester
 
@@ -19,6 +22,7 @@ global_my_ip: 127.0.0.1
 
 global_os_user: tester
 global_postgresql_password: tester
+global_region: RegionOne
 global_run_type: apache # eventlet or profile or uwsgi or apache
 global_db: postgresql # mysql or postgresql
 global_skip: False

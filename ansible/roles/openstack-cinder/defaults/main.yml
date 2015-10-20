@@ -1,0 +1,16 @@
+---
+
+controller_ip: 127.0.0.1
+my_ip: 127.0.0.1
+
+# Glance
+cinder_log_dir: /var/log/glance
+cinder_default_region: RegionOne
+cinder_dir: /tmp/glance
+
+# Keystone
+cinder_auth_username: cinder
+cinder_auth_password: tester
+
+# Database
+cinder_database_url: sqlite:////var/lib/cinder/cinder.db

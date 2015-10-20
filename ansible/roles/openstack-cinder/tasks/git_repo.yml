@@ -1,0 +1,13 @@
+- name: Clone Glance
+  git: repo=https://github.com/openstack/cinder.git dest={{ cinder_dir }} clone=yes
+
+- name: create virtual env
+  command: "virtualenv {{ cinder_dir }}/venv"
+
+- name: install requirements
+  pip: requirements={{ cinder_dir }}/requirements.txt virtualenv={{ cinder_dir }}/venv extra_args='--no-cache-dir'
+
+- name: setup.py install
+  shell: "{{ cinder_dir }}/venv/bin/python {{ cinder_dir }}/setup.py install"
+  args:
+    chdir: "{{ cinder_dir }}"

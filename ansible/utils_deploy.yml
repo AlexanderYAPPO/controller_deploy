@@ -13,11 +13,13 @@
 
     - role: postgresql
       postgresql_admin_user: "postgres"
-      postgresql_databases: [glance]
+      postgresql_databases: [glance, cinder]
       postgresql_users:
         - { name: glance, pass: "{{ global_glance_password }}" }
+        - { name: cinder, pass: "{{ global_cinder_password }}" }
       postgresql_user_privileges:
         - { role: glance, db: glance }
+        - { role: cinder, db: cinder }
 
     - role: openstack-keystone
       keystone_part: client
@@ -27,21 +29,43 @@
       keystone_port: 5000
       keystone_users:
         - { name: "{{ global_glance_user }}", password: "{{ global_glance_password }}", tenant: service }
+        - { name: "{{ global_cinder_user }}", password: "{{ global_cinder_password }}", tenant: service }
       keystone_roles:
         - { name: admin, user: "{{ global_glance_user }}", tenant: service }
+        - { name: admin, user: "{{ global_cinder_user }}", tenant: service }
       keystone_services:
         - { name: glance, service_type: image }
+        - { name: cinder, service_type: volume }
+        - { name: cinderv2, service_type: volumev2 }
       keystone_endpoints:
         - service_name: glance
           public_url: "http://{{ global_my_ip }}:9292"
           internal_url: "http://{{ global_my_ip }}:9292"
           admin_url: "http://{{ global_my_ip }}:9292"
+          region: RegionOne
+        - service_name: cinder
+          public_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
+          internal_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
+          admin_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
+          region: RegionOne
+        - service_name: cinderv2
+          public_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
+          internal_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
+          admin_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
+          region: RegionOne
 
     - role: openstack-glance
       glance_dir: /home/{{ global_os_user }}/glance
       glance_database_url: "{{ global_db }}://glance:{{ global_glance_password }}@localhost/glance"
       controller_ip: "{{ global_my_ip }}"
       glance_auth_username: "glance"
+      glance_auth_password: "tester"
+
+    - role: openstack-cinder
+      glance_dir: /home/{{ global_os_user }}/cinder
+      glance_database_url: "{{ global_db }}://cinder:{{ global_cinder_password }}@localhost/cinder"
+      controller_ip: "{{ global_my_ip }}"
+      glance_auth_username: "cinder"
       glance_auth_password: "tester"
 
     - role: client

@@ -1,0 +1,26 @@
+---
+
+#- name: Create dir for Cinder
+#  file: path={{ item }} state=directory mode=0755 owner={{ global_os_user }}
+#  sudo: yes
+#  with_items:
+#    - /etc/cinder
+#    - /var/log/cinder
+#    - /var/lib/cinder
+#
+#- name: Configure Cinder
+#  template: src="{{ item }}.j2" dest=/etc/glance/{{ item }}
+#  with_items:
+#    - glance-api.conf
+#    - glance-registry.conf
+#
+#- name: Copy Cinder configuration files
+#  copy: src="{{ glance_dir }}/etc/{{ item }}" dest=/etc/glance/{{ item }} owner={{ global_os_user }}
+#  with_items:
+#    - glance-api-paste.ini
+#    - glance-registry-paste.ini
+#    - policy.json
+#    - schema-image.json
+#
+#- name: Sync Cinder database
+#  command: '/bin/sh -c "{{ cinder_dir }}/venv/bin/cinder-manage db_sync" cinder'

@@ -48,10 +48,12 @@
           public_url: "http://{{ global_my_ip }}:5000/v2.0"
           internal_url: "http://{{ global_my_ip }}:5000/v2.0"
           admin_url: "http://{{ global_my_ip }}:35357/v2.0"
+          region: RegionOne
         - service_name: nova
           public_url: "http://{{ global_my_ip }}:8774/v2/%(tenant_id)s"
           internal_url: "http://{{ global_my_ip }}:8774/v2/%(tenant_id)s"
           admin_url: "http://{{ global_my_ip }}:8774/v2/%(tenant_id)s"
+          region: RegionOne
 
     - role: openstack-nova
       nova_dir: /home/{{ global_os_user }}/nova
