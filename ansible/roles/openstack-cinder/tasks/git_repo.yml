@@ -1,4 +1,4 @@
-- name: Clone Glance
+- name: Clone Cinder
   git: repo=https://github.com/openstack/cinder.git dest={{ cinder_dir }} clone=yes
 
 - name: create virtual env

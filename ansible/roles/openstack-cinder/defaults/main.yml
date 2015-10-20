@@ -4,9 +4,12 @@ controller_ip: 127.0.0.1
 my_ip: 127.0.0.1
 
 # Glance
-cinder_log_dir: /var/log/glance
+cinder_log_dir: /var/log/cinder
 cinder_default_region: RegionOne
-cinder_dir: /tmp/glance
+cinder_dir: /tmp/cinder
+cinder_rabbitmq_ip: 127.0.0.1
+cinder_rabbitmq_user: openstack
+cinder_rabbitmq_password: tester
 
 # Keystone
 cinder_auth_username: cinder

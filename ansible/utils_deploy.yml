@@ -44,14 +44,14 @@
           admin_url: "http://{{ global_my_ip }}:9292"
           region: RegionOne
         - service_name: cinder
-          public_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
-          internal_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
-          admin_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
+          public_url: "http://{{ global_my_ip }}:8776/v2/%(tenant_id)s"
+          internal_url: "http://{{ global_my_ip }}:8776/v2/%(tenant_id)s"
+          admin_url: "http://{{ global_my_ip }}:8776/v2/%(tenant_id)s"
           region: RegionOne
         - service_name: cinderv2
-          public_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
-          internal_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
-          admin_url: "http://{{ global_my_ip }}:8776/v2/%\(tenant_id\)s"
+          public_url: "http://{{ global_my_ip }}:8776/v2/%(tenant_id)s"
+          internal_url: "http://{{ global_my_ip }}:8776/v2/%(tenant_id)s"
+          admin_url: "http://{{ global_my_ip }}:8776/v2/%(tenant_id)s"
           region: RegionOne
 
     - role: openstack-glance
@@ -62,11 +62,15 @@
       glance_auth_password: "tester"
 
     - role: openstack-cinder
-      glance_dir: /home/{{ global_os_user }}/cinder
-      glance_database_url: "{{ global_db }}://cinder:{{ global_cinder_password }}@localhost/cinder"
+      cinder_dir: /home/{{ global_os_user }}/cinder
+      cinder_database_url: "{{ global_db }}://cinder:{{ global_cinder_password }}@localhost/cinder"
       controller_ip: "{{ global_my_ip }}"
-      glance_auth_username: "cinder"
-      glance_auth_password: "tester"
+      cinder_auth_username: "cinder"
+      cinder_auth_password: "tester"
+      my_ip: "{{ global_my_ip }}"
+      cinder_rabbitmq_ip: "{{ global_my_ip }}"
+      cinder_rabbitmq_user: "openstack"
+      cinder_rabbitmq_password: "tester"
 
     - role: client
       controller_ip: "http://{{ global_my_ip }}:35357"

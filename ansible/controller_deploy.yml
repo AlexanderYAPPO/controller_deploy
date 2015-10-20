@@ -64,3 +64,5 @@
       nova_auth_username: "nova"
       nova_auth_password: "tester"
       nova_rabbitmq_ip: "{{ global_my_ip }}"
+      nova_rabbitmq_user: openstack
+      nova_rabbitmq_password: tester
