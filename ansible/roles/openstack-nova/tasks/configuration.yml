@@ -11,26 +11,23 @@
 - name: Configure Nova
   template: src=nova.conf.j2 dest=/etc/nova/nova.conf
 
-- name: Copy Nova compute config
+- name: Copy Nova compute configuration files
   copy: src=nova-compute.conf dest=/etc/nova/nova-compute.conf owner={{ global_os_user }}
   when: nova_type == "compute"
 
-- name: Copy api-paste.ini
-  copy: src={{ nova_dir }}/etc/nova/api-paste.ini dest=/etc/nova/api-paste.ini owner={{ global_os_user }}
-
-- name: Copy rootwrap.conf
-  copy: src={{ nova_dir }}/etc/nova/rootwrap.conf dest=/etc/nova/rootwrap.conf owner={{ global_os_user }}
+- name: Copy Nova controller configuration files
+  copy: src="{ nova_dir }}/etc/nova/{{ item }}" dest="/etc/nova/{{ item }}" owner={{ global_os_user }}
+  with_items:
+    - rootwrap.conf
+    - rootwrap.d
   when: nova_type == "controller"
 
-- name: Copy policy.json
-  copy: src={{ nova_dir }}/etc/nova/policy.json dest=/etc/nova/policy.json owner={{ global_os_user }}
-
-- name: Copy rootwrap.d
-  copy: src={{ nova_dir }}/etc/nova/rootwrap.d dest=/etc/nova/ owner={{ global_os_user }}
-  when: nova_type == "controller"
-
-- name: Copy logging.conf
-  copy: src={{ nova_dir }}/etc/nova/logging_sample.conf dest=/etc/nova/logging.conf owner={{ global_os_user }}
+- name: Copy Nova common configuration files
+  copy: src="{ nova_dir }}/etc/nova/{{ item }}" dest="/etc/nova/{{ item }}" owner={{ global_os_user }}
+  with_items:
+    - api-paste.ini
+    - policy.json
+    - logging_sample.conf
 
 - name: Sync Nova database
   command: '/bin/sh -c "{{ nova_dir }}/venv/bin/nova-manage db sync" nova'

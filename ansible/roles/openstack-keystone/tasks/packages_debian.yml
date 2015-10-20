@@ -29,4 +29,4 @@
     - memcached
     - python-memcache
   sudo: yes
-  when: keystone_part = "server"
+  when: keystone_part == "server"

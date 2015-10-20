@@ -1,5 +1,5 @@
 - include: facts.yml
 - include: packages.yml
 - include: git_repo.yml
-#- include: python_dependencies.yml
+- include: python_dependencies.yml
 - include: configuration.yml

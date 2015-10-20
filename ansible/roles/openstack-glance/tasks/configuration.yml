@@ -14,7 +14,7 @@
     - glance-api.conf
     - glance-registry.conf
 
-- name: Copy Nova compute config
+- name: Copy Glance configuration files
   copy: src="{{ glance_dir }}/etc/{{ item }}" dest=/etc/glance/{{ item }} owner={{ global_os_user }}
   with_items:
     - glance-api-paste.ini

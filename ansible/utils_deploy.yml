@@ -45,6 +45,7 @@
       glance_auth_password: "tester"
 
     - role: client
-      controller_ip: "{{ global_my_ip }}"
+      controller_ip: "http://{{ global_my_ip }}:35357"
       username: "admin"
       password: "tester"
+      client_dir: "/home/{{ global_os_user }}"
