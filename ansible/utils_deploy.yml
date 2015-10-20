@@ -43,3 +43,8 @@
       controller_ip: "{{ global_my_ip }}"
       glance_auth_username: "glance"
       glance_auth_password: "tester"
+
+    - role: client
+      controller_ip: "{{ global_my_ip }}"
+      username: "admin"
+      password: "tester"
