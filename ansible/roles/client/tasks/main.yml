@@ -1,0 +1,3 @@
+#- include: facts.yml
+#- include: packeges.yml
+- include: configuration.yml

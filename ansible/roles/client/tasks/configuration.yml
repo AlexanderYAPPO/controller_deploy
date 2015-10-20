@@ -1,0 +1,2 @@
+- name: Copy sorce file
+  template: src=admin.sh.j2 dest={{ client_dir }}

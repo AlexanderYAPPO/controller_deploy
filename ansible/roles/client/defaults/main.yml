@@ -1,0 +1,5 @@
+controller_ip: http://127.0.0.1:35357
+username: admin
+password: tester
+tenant: admin
+client_dir: ~
