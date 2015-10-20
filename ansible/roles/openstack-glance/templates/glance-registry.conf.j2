@@ -766,13 +766,6 @@ connection = {{ glance_database_url }}
 #
 
 auth_uri = http://{{ controller_ip }}:5000
-auth_url = http://{{ controller_ip }}:35357
-auth_plugin = password
-project_domain_id = default
-user_domain_id = default
-project_name = service
-username = {{ glance_auth_username }}
-password = {{ glance_auth_password }}
 
 # Complete public Identity API endpoint. (string value)
 #auth_uri = <None>
@@ -921,7 +914,7 @@ password = {{ glance_auth_password }}
 # Complete admin Identity API endpoint. This should specify the
 # unversioned root endpoint e.g. https://localhost:35357/ (string
 # value)
-#identity_uri = <None>
+identity_uri = http://{{ controller_ip }}:35357/
 
 # This option is deprecated and may be removed in a future release.
 # Single shared secret with the Keystone configuration used for
@@ -931,13 +924,13 @@ password = {{ glance_auth_password }}
 #admin_token = <None>
 
 # Service username. (string value)
-#admin_user = <None>
+admin_user = {{ glance_auth_username }}
 
 # Service user password. (string value)
-#admin_password = <None>
+admin_password = {{ glance_auth_password }}
 
 # Service tenant name. (string value)
-#admin_tenant_name = admin
+admin_tenant_name = service
 
 
 [matchmaker_redis]
@@ -1254,7 +1247,7 @@ password = {{ glance_auth_password }}
 # service name removed. For example, if your paste section name is
 # [pipeline:glance-api-keystone] use the value "keystone" (string
 # value)
-flavor = noop
+flavor = keystone
 
 # Name of the paste configuration file. (string value)
 #config_file = <None>

@@ -9,13 +9,13 @@
     - /var/lib/glance
 
 - name: Configure Glance
-  template: src="{{ item }}.j2" dest=/etc/glance/{{ tem }}
+  template: src="{{ item }}.j2" dest=/etc/glance/{{ item }}
   with_items:
     - glance-api.conf
     - glance-registry.conf
 
 - name: Copy Nova compute config
-  copy: src={{ item }} dest=/etc/glance/{{ item }} owner={{ global_os_user }}
+  copy: src="{{ glance_dir }}/etc/{{ item }}" dest=/etc/glance/{{ item }} owner={{ global_os_user }}
   with_items:
     - glance-api-paste.ini
     - glance-registry-paste.ini
@@ -23,4 +23,4 @@
     - schema-image.json
 
 - name: Sync Glance database
-  command: '/bin/sh -c "{{ nova_dir }}/venv/bin/glance-manage db_sync" glance'
+  command: '/bin/sh -c "{{ glance_dir }}/venv/bin/glance-manage db_sync" glance'

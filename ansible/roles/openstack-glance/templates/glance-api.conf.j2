@@ -11,7 +11,7 @@
 
 # Role used to identify an authenticated user as administrator.
 # (string value)
-#admin_role = admin
+admin_role = admin
 
 # Allow unauthenticated users to access the API with read-only
 # privileges. This only applies when using ContextMiddleware. (boolean
@@ -256,21 +256,21 @@ registry_port = 9191
 
 # The administrators user name. If "use_user_token" is not in effect,
 # then admin credentials can be specified. (string value)
-#admin_user = <None>
+admin_user = {{ glance_auth_username }}
 
 # The administrators password. If "use_user_token" is not in effect,
 # then admin credentials can be specified. (string value)
-#admin_password = <None>
+admin_password = {{ glance_auth_password }}
 
 # The tenant name of the administrative user. If "use_user_token" is
 # not in effect, then admin tenant name can be specified. (string
 # value)
-#admin_tenant_name = <None>
+admin_tenant_name = service
 
 # The URL to the keystone service. If "use_user_token" is not in
 # effect and using keystone auth, then URL of keystone can be
 # specified. (string value)
-#auth_url = <None>
+auth_url = http://{{ controller_ip }}:35357/v2.0
 
 # The strategy to use for authentication. If "use_user_token" is not
 # in effect, then auth strategy can be specified. (string value)
@@ -698,7 +698,7 @@ default_store = file
 
 # Directory to which the Filesystem backend store writes images.
 # (string value)
-#filesystem_store_datadir = <None>
+filesystem_store_datadir = /var/lib/glance/images
 
 # List of directories and its priorities to which the Filesystem
 # backend store writes images. (multi valued)
@@ -971,14 +971,7 @@ default_store = file
 
 [keystone_authtoken]
 
-auth_uri = http://{{ controller_ip }}:5000
-auth_url = http://{{ controller_ip }}:35357
-auth_plugin = password
-project_domain_id = default
-user_domain_id = default
-project_name = service
-username = {{ glance_auth_username }}
-password = {{ glance_auth_password }}
+auth_uri = http://{{ controller_ip }}:5000/v2.0
 
 # API version of the admin Identity API endpoint. (string value)
 #auth_version = <None>
@@ -994,7 +987,7 @@ password = {{ glance_auth_password }}
 
 # How many times are we trying to reconnect when communicating with
 # Identity API Server. (integer value)
-#http_request_max_retries = 3
+http_request_max_retries = 3
 
 # Env key for the swift cache. (string value)
 #cache = <None>
@@ -1124,7 +1117,7 @@ password = {{ glance_auth_password }}
 # Complete admin Identity API endpoint. This should specify the
 # unversioned root endpoint e.g. https://localhost:35357/ (string
 # value)
-#identity_uri = <None>
+identity_uri = http://{{ controller_ip }}:35357
 
 # This option is deprecated and may be removed in a future release.
 # Single shared secret with the Keystone configuration used for
@@ -1134,13 +1127,13 @@ password = {{ glance_auth_password }}
 #admin_token = <None>
 
 # Service username. (string value)
-#admin_user = <None>
+admin_user = {{ glance_auth_username }}
 
 # Service user password. (string value)
-#admin_password = <None>
+admin_password = {{ glance_auth_password }}
 
 # Service tenant name. (string value)
-#admin_tenant_name = admin
+admin_tenant_name = service
 
 
 [matchmaker_redis]

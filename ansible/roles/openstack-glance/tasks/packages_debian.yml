@@ -16,28 +16,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-#- name: Install Nova dependencies client
-#  apt: name="{{ item }}" state=present
-#  with_items:
-#    - libxml2-dev
-#    - libxslt1-dev
-#  sudo: yes
-#
-#- name: Install Nova controller dependencies
-#  apt: name="{{ item }}" state=present
-#  with_items:
-#    - novnc
-#    - rabbitmq-server
-#  sudo: yes
-#  when: nova_type == "controller"
-#
-#- name: Install Nova compute dependencies
-#  apt: name="{{ item }}" state=present
-#  with_items:
-#    - qemu
-#    - qemu-kvm
-#    - libvirt-bin
-#    - libvirt-dev
-#  sudo: yes
-#  when: nova_type == "compute"
