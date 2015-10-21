@@ -9,12 +9,12 @@
     - /var/lib/cinder
 
 - name: Configure Cinder
-  template: src="{{ item }}.j2" dest=/etc/glance/{{ item }}
+  template: src="{{ item }}.j2" dest=/etc/cinder/{{ item }}
   with_items:
     - cinder.conf
 
 - name: Copy Cinder configuration files
-  copy: src="{{ cinder_dir }}/cinder/etc/{{ item }}" dest=/etc/cinder/{{ item }} owner={{ global_os_user }}
+  copy: src="{{ cinder_dir }}/etc/cinder/{{ item }}" dest="/etc/cinder/{{ item }}" owner={{ global_os_user }}
   with_items:
     - api-httpd.conf
     - logging_sample.conf
@@ -23,5 +23,7 @@
     - rootwrap.conf
     - rootwrap.d
 
-#- name: Sync Cinder database
-#  command: '/bin/sh -c "{{ cinder_dir }}/venv/bin/cinder-manage db_sync" cinder'
+- name: Sync Cinder database
+  command: '/bin/sh -c "{{ cinder_dir }}/venv/bin/cinder-manage db sync" cinder'
+
+- include: configuration_lvm.yml

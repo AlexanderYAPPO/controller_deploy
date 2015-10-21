@@ -57,23 +57,23 @@
     - role: openstack-glance
       glance_dir: /home/{{ global_os_user }}/glance
       glance_database_url: "{{ global_db }}://glance:{{ global_glance_password }}@localhost/glance"
-      controller_ip: "{{ global_my_ip }}"
+      controller_ip: "{{ global_controller_ip }}"
       glance_auth_username: "glance"
       glance_auth_password: "tester"
 
     - role: openstack-cinder
       cinder_dir: /home/{{ global_os_user }}/cinder
       cinder_database_url: "{{ global_db }}://cinder:{{ global_cinder_password }}@localhost/cinder"
-      controller_ip: "{{ global_my_ip }}"
+      controller_ip: "{{ global_controller_ip }}"
       cinder_auth_username: "cinder"
       cinder_auth_password: "tester"
       my_ip: "{{ global_my_ip }}"
-      cinder_rabbitmq_ip: "{{ global_my_ip }}"
+      cinder_rabbitmq_ip: "{{ global_controller_ip }}"
       cinder_rabbitmq_user: "openstack"
       cinder_rabbitmq_password: "tester"
 
     - role: client
-      controller_ip: "http://{{ global_my_ip }}:35357"
+      controller_ip: "http://{{ global_controller_ip }}:35357"
       username: "admin"
       password: "tester"
       client_dir: "/home/{{ global_os_user }}"

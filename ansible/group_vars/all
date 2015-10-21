@@ -3,6 +3,8 @@
 global_cinder_user: cinder
 global_cinder_password: tester
 
+global_controller_ip: 127.0.0.1
+
 global_glance_user: glance
 global_glance_password: tester
 

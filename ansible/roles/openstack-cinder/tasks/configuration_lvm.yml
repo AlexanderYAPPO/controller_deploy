@@ -1,0 +1,16 @@
+---
+
+- name: Create LVM physical volume
+  shell: "pvcreate /dev/sdb1"
+  sudo: yes
+
+- name: Create LVM volume group
+  lvg: vg=cinder-volumes pvs=/dev/sdb1
+  sudo: yes
+
+- name: Change lvm.conf
+  lineinfile: dest=/etc/lvm/lvm.conf
+              state=present
+              regexp='filter = \[ \\\"a\/\.\*\/\\\" \]'
+              line='filter = [ "a/sdb/", "r/.*/"]'
+              backup=yes

@@ -16,7 +16,7 @@
   when: nova_type == "compute"
 
 - name: Copy Nova controller configuration files
-  copy: src="{ nova_dir }}/etc/nova/{{ item }}" dest="/etc/nova/{{ item }}" owner={{ global_os_user }}
+  copy: src="{{ nova_dir }}/etc/nova/{{ item }}" dest="/etc/nova/{{ item }}" owner={{ global_os_user }}
   with_items:
     - rootwrap.conf
     - rootwrap.d

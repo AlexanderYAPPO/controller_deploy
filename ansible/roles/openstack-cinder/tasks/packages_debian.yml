@@ -1,1 +1,7 @@
 ---
+
+- name: Install LVM
+  apt: name="{{ item }}" state=present
+  with_items:
+    - lvm2
+  sudo: yes

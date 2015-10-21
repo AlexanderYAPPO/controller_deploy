@@ -11,3 +11,9 @@
   shell: "{{ cinder_dir }}/venv/bin/python {{ cinder_dir }}/setup.py install"
   args:
     chdir: "{{ cinder_dir }}"
+
+- name: copy cinder-rootwrap to /usr/bin
+  copy: src={{ cinder_dir }}/venv/bin/cinder-rootwrap
+        dest=/usr/bin/cinder-rootwrap
+        mode="u+x"
+  sudo: yes
