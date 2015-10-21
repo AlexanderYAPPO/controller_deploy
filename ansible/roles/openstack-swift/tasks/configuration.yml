@@ -1,0 +1,27 @@
+---
+
+- name: Create dir for Swift
+  file: path={{ item }} state=directory mode=0755 owner={{ global_os_user }}
+  sudo: yes
+  with_items:
+    - /etc/swift
+    - /var/log/swift
+    - /var/lib/swift
+    - /var/cache/swift
+
+- name: Configure Swift
+  template: src="{{ item }}.j2" dest=/etc/swift/{{ item }}
+  with_items:
+    - proxy-server.conf
+    - account-server.conf
+    - container-server.conf
+    - object-server.conf
+
+- name: Copy Swift configuration files
+  copy: src="{{ swift_dir }}/etc/{{ item }}-sample" dest=/etc/swift/{{ item }} owner={{ global_os_user }}
+  with_items:
+    - container-reconciler.conf
+    - object-expirer.conf
+#
+#- name: Sync Swift database
+#  command: '/bin/sh -c "{{ swift_dir }}/venv/bin/swift-manage db_sync" swift'

@@ -28,3 +28,6 @@ global_region: RegionOne
 global_run_type: apache # eventlet or profile or uwsgi or apache
 global_db: postgresql # mysql or postgresql
 global_skip: False
+
+global_swift_user: swift
+global_swift_password: tester
