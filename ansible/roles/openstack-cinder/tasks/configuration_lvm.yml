@@ -11,6 +11,8 @@
 - name: Change lvm.conf
   lineinfile: dest=/etc/lvm/lvm.conf
               state=present
-              regexp='filter = \[ \\\"a\/\.\*\/\\\" \]'
-              line='filter = [ "a/sdb/", "r/.*/"]'
+              regexp="^(.*)filter = \[ \\\"a\/\.\*\/\\\" \](.*)$"
+              line='\1filter = [ "a/sdb/", "r/.*/"]\2'
               backup=yes
+              backrefs=yes
+  sudo: yes
