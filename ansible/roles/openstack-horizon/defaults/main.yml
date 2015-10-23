@@ -7,10 +7,3 @@ my_ip: 127.0.0.1
 horizon_log_dir: /var/log/horizon
 horizon_default_region: RegionOne
 horizon_dir: /tmp/horizon
-
-# Keystone
-glance_auth_username: glance
-glance_auth_password: tester
-
-# Database
-glance_database_url: sqlite:////var/lib/glance/glance.db

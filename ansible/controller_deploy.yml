@@ -71,3 +71,9 @@
       nova_rabbitmq_ip: "{{ global_my_ip }}"
       nova_rabbitmq_user: openstack
       nova_rabbitmq_password: tester
+
+    - role: openstack-horizon
+      horizon_dir: /home/{{ global_os_user }}/horizon
+      controller_ip: "{{ global_controller_ip }}"
+      my_ip: "{{ global_my_ip }}"
+

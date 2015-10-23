@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-- name: Install Apache2
+- name: Install dependencies
   apt: name={{ item }} state=present
   with_items:
     - apache2
