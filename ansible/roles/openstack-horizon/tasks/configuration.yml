@@ -4,23 +4,21 @@
   file: path={{ item }} state=directory mode=0755 owner={{ global_os_user }}
   sudo: yes
   with_items:
-    - /etc/horizon
-    - /var/log/horizon
-    - /var/lib/horizon
-
+    - /etc/openstack-dashboard
+#
 - name: Configure Horizon
-  template: src="{{ item }}.j2" dest=/etc/glance/{{ item }}
+  template: src="{{ item }}.example.j2" dest=/etc/openstack-dashboard/{{ item }}
   with_items:
-    - glance-api.conf
-    - glance-registry.conf
+    - local_settings.py
+#
+#- name: Copy Horizon configuration files
+#  copy: src="{{ glance_dir }}/etc/{{ item }}" dest=/etc/glance/{{ item }} owner={{ global_os_user }}
+#  with_items:
+#    - glance-api-paste.ini
+#    - glance-registry-paste.ini
+#    - policy.json
+#    - schema-image.json
+#
+#- name: Sync Horizon database
+#  command: '/bin/sh -c "{{ glance_dir }}/venv/bin/glance-manage db_sync" glance'
 
-- name: Copy Horizon configuration files
-  copy: src="{{ glance_dir }}/etc/{{ item }}" dest=/etc/glance/{{ item }} owner={{ global_os_user }}
-  with_items:
-    - glance-api-paste.ini
-    - glance-registry-paste.ini
-    - policy.json
-    - schema-image.json
-
-- name: Sync Horizon database
-  command: '/bin/sh -c "{{ glance_dir }}/venv/bin/glance-manage db_sync" glance'
