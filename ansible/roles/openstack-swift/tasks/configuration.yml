@@ -22,6 +22,3 @@
   with_items:
     - container-reconciler.conf
     - object-expirer.conf
-#
-#- name: Sync Swift database
-#  command: '/bin/sh -c "{{ swift_dir }}/venv/bin/swift-manage db_sync" swift'

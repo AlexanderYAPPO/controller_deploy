@@ -77,7 +77,7 @@ user = swift
 # eventlet_debug = false
 
 [pipeline:main]
-pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk tempurl ratelimit tempauth container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
+pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk tempurl ratelimit authtoken keystoneauthtoken container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
 
 [app:proxy-server]
 use = egg:swift#proxy
@@ -283,16 +283,19 @@ user_test5_tester5 = testing5 service
 #
 [filter:authtoken]
 paste.filter_factory = keystonemiddleware.auth_token:filter_factory
-identity_uri = http://{{ controller_ip }}:35357/
+auth_url = http://{{ controller_ip }}:35357/
 auth_uri = http://{{ controller_ip }}:5000/
-admin_tenant_name = service
-admin_user = {{ swift_auth_username }}
-admin_password = {{ swift_auth_password }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ swift_auth_username }}
+password = {{ swift_auth_password }}
 #
 # delay_auth_decision defaults to False, but leaving it as false will
 # prevent other auth systems, staticweb, tempurl, formpost, and ACLs from
 # working. This value must be explicitly set to True.
-# delay_auth_decision = False
+delay_auth_decision = true
 #
 # cache = swift.cache
 # include_service_catalog = False

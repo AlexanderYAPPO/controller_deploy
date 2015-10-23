@@ -1,8 +1,8 @@
 ---
-
-- name: install psycopg2
-  pip: name=psycopg2 virtualenv={{ swift_dir }}/venv
-  when: global_db == "postgresql"
+#
+#- name: install psycopg2
+#  pip: name=psycopg2 virtualenv={{ swift_dir }}/venv
+#  when: global_db == "postgresql"
 
 - name: install python-swiftclient
   pip: name={{ item }} virtualenv={{ swift_dir }}/venv
@@ -10,3 +10,4 @@
     - python-glanceclient
     - python-keystoneclient
     - python-swiftclient
+    - python-keystonemiddleware

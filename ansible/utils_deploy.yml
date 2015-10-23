@@ -59,7 +59,7 @@
         - service_name: swift
           public_url: "http://{{ global_my_ip }}:8080/v1/AUTH_%(tenant_id)s"
           internal_url: "http://{{ global_my_ip }}:8080/v1/AUTH_%(tenant_id)s"
-          admin_url: "http://{{ global_my_ip }}:8776/v2/%(tenant_id)s"
+          admin_url: "http://{{ global_my_ip }}:8080"
           region: RegionOne
 
     - role: openstack-glance
@@ -82,14 +82,13 @@
 
     - role: openstack-swift
       swift_dir: /home/{{ global_os_user }}/swift
-      swift_database_url: "{{ global_db }}://swift:{{ global_swift_password }}@localhost/swift"
       controller_ip: "{{ global_controller_ip }}"
       swift_auth_username: "swift"
       swift_auth_password: "tester"
       my_ip: "{{ global_my_ip }}"
 
     - role: client
-      controller_ip: "http://{{ global_controller_ip }}:35357"
+      controller_ip: "http://{{ global_controller_ip }}:35357/v2.0"
       username: "admin"
       password: "tester"
       client_dir: "/home/{{ global_os_user }}"

@@ -23,7 +23,7 @@ nova_neutron_url: http://127.0.0.1:9696
 nova_admin_auth_url: http://10.10.10.121:35357/v2.0
 
 # Database
-nova_database_url: sqlite:////var/lib/keystone/keystone.db
+nova_database_url: sqlite:////var/lib/nova/nova.db
 
 # RabbitMQ
 nova_rabbitmq_ip: 127.0.0.1
