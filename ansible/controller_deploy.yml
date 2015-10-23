@@ -25,6 +25,11 @@
       keystone_dir: /home/{{ global_os_user }}/keystone
       keystone_part: server
       keystone_database_url: "{{ global_db }}://keystone:{{ global_keystone_password }}@localhost/keystone"
+
+    - role: openstack-keystone
+      keystone_hostname: {{ global_controller_ip }}
+      keystone_dir: /home/{{ global_os_user }}/keystone
+      keystone_part: client
       keystone_admin_token: "{{ global_keystone_token }}"
       keystone_admin_port: 35357
       keystone_port: 5000
@@ -59,7 +64,7 @@
       nova_dir: /home/{{ global_os_user }}/nova
       nova_database_url: "{{ global_db }}://nova:{{ global_nova_password }}@localhost/nova"
       my_ip: "{{ global_my_ip }}"
-      controller_ip: "{{ global_my_ip }}"
+      controller_ip: "{{ global_controller_ip }}"
       nova_type: "controller"
       nova_auth_username: "nova"
       nova_auth_password: "tester"
