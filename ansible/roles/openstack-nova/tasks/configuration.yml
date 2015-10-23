@@ -23,7 +23,7 @@
   when: nova_type == "controller"
 
 - name: Copy Nova common configuration files
-  copy: src="{ nova_dir }}/etc/nova/{{ item }}" dest="/etc/nova/{{ item }}" owner={{ global_os_user }}
+  copy: src="{{ nova_dir }}/etc/nova/{{ item }}" dest="/etc/nova/{{ item }}" owner={{ global_os_user }}
   with_items:
     - api-paste.ini
     - policy.json
