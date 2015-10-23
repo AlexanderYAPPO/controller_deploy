@@ -80,12 +80,12 @@
       cinder_rabbitmq_user: "openstack"
       cinder_rabbitmq_password: "tester"
 
-    - role: openstack-swift
-      swift_dir: /home/{{ global_os_user }}/swift
-      controller_ip: "{{ global_controller_ip }}"
-      swift_auth_username: "swift"
-      swift_auth_password: "tester"
-      my_ip: "{{ global_my_ip }}"
+#    - role: openstack-swift
+#      swift_dir: /home/{{ global_os_user }}/swift
+#      controller_ip: "{{ global_controller_ip }}"
+#      swift_auth_username: "swift"
+#      swift_auth_password: "tester"
+#      my_ip: "{{ global_my_ip }}"
 
     - role: client
       controller_ip: "http://{{ global_controller_ip }}:35357/v2.0"

@@ -1,0 +1,13 @@
+- name: Clone Horizon
+  git: repo=https://github.com/openstack/horizon.git dest={{ horizon_dir }} clone=yes
+
+- name: create virtual env
+  command: "virtualenv {{ horizon_dir }}/venv"
+
+- name: install requirements
+  pip: requirements={{ horizon_dir }}/requirements.txt virtualenv={{ horizon_dir }}/venv extra_args='--no-cache-dir'
+
+- name: setup.py install
+  shell: "{{ horizon_dir }}/venv/bin/python {{ horizon_dir }}/setup.py install"
+  args:
+    chdir: "{{ horizon_dir }}"
