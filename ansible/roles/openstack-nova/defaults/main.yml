@@ -1,6 +1,7 @@
 ---
 
 controller_ip: 127.0.0.1
+metadata_secret: tester
 my_ip: 127.0.0.1
 nova_type: controller #controller or compute
 
