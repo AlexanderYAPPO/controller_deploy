@@ -1,0 +1,13 @@
+- name: Clone Neutron
+  git: repo=https://github.com/openstack/neutron.git dest={{ neutron_dir }} clone=yes
+
+- name: create virtual env
+  command: "virtualenv {{ neutron_dir }}/venv"
+
+- name: install requirements
+  pip: requirements={{ neutron_dir }}/requirements.txt virtualenv={{ neutron_dir }}/venv extra_args='--no-cache-dir'
+
+- name: setup.py install
+  shell: "{{ neutron_dir }}/venv/bin/python {{ neutron_dir }}/setup.py install"
+  args:
+    chdir: "{{ neutron_dir }}"

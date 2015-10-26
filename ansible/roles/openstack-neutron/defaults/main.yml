@@ -1,0 +1,24 @@
+---
+
+controller_ip: 127.0.0.1
+my_ip: 127.0.0.1
+
+# Neutron
+neutron_log_dir: /var/log/neutron
+neutron_default_region: RegionOne
+neutron_dir: /tmp/neutron
+
+# Keystone
+neutron_auth_username: neutron
+neutron_auth_password: tester
+
+nova_auth_username: nova
+nova_auth_password: tester
+
+# Database
+neutron_database_url: sqlite:////var/lib/neutron/neutron.db
+
+# RabbitMQ
+neutron_rabbitmq_ip: 127.0.0.1
+neutron_rabbitmq_user: "openstack"
+neutron_rabbitmq_password: "tester"
