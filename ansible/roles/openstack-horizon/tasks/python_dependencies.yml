@@ -4,9 +4,7 @@
 #  pip: name=psycopg2 virtualenv={{ glance_dir }}/venv
 #  when: global_db == "postgresql"
 #
-#- name: install python-swiftclient
-#  pip: name={{ item }} virtualenv={{ glance_dir }}/venv
-#  with_items:
-#    - python-glanceclient
-#    - python-keystoneclient
-#    - python-swiftclient
+- name: install horizon dependencies
+  pip: name={{ item }} virtualenv={{ horizon_dir }}/venv
+  with_items:
+    - python-memcached

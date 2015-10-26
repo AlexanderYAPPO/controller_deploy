@@ -1,24 +1,19 @@
 ---
 
-- name: Create dir for Horizon
-  file: path={{ item }} state=directory mode=0755 owner={{ global_os_user }}
-  sudo: yes
-  with_items:
-    - /etc/openstack-dashboard
+#- name: Create dir for Horizon
+#  file: path={{ item }} state=directory mode=0755 owner={{ global_os_user }}
+#  sudo: yes
+#  with_items:
+#    - /etc/openstack-dashboard
 #
 - name: Configure Horizon
-  template: src="{{ item }}.example.j2" dest=/etc/openstack-dashboard/{{ item }}
+  template: src="{{ item }}.example.j2" dest={{ horizon_dir }}/openstack-dashboard/{{ item }}
   with_items:
     - local_settings.py
-#
-#- name: Copy Horizon configuration files
-#  copy: src="{{ glance_dir }}/etc/{{ item }}" dest=/etc/glance/{{ item }} owner={{ global_os_user }}
-#  with_items:
-#    - glance-api-paste.ini
-#    - glance-registry-paste.ini
-#    - policy.json
-#    - schema-image.json
-#
-#- name: Sync Horizon database
-#  command: '/bin/sh -c "{{ glance_dir }}/venv/bin/glance-manage db_sync" glance'
 
+- name: Generate WSGI config file
+  shell: 'PATH="{{ horizon_dir }}/venv/bin:$PATH" bash {{ horizon_dir }}/manage.py make_web_conf --wsgi --force'
+
+- name: Generate Apache config file
+  shell: 'PATH="{{ horizon_dir }}/venv/bin:$PATH" bash {{ horizon_dir }}/manage.py make_web_conf --apache --force > /etc/apache2/sites-available/horizon.conf'
+  sudo: yes
