@@ -22,7 +22,7 @@
   copy: src="{{ neutron_dir }}/etc/{{ item }}" dest=/etc/neutron/{{ item }} owner={{ global_os_user }}
   with_items:
     - api-paste.ini
-    - dhcp-agent.ini
+    - dhcp_agent.ini
     - l3_agent.ini
     - metadata_agent.ini
     - metering_agent.ini
