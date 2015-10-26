@@ -12,6 +12,9 @@
   template: src="{{ item }}.j2" dest=/etc/neutron/{{ item }}
   with_items:
     - neutron.conf
+    - l3_agent.ini
+    - dhcp_agent.ini
+    - metadata_agent.ini
 
 - name: Configure Neutron ML2
   template: src="{{ item }}.j2" dest=/etc/neutron/plugins/ml2/{{ item }}
@@ -22,9 +25,6 @@
   copy: src="{{ neutron_dir }}/etc/{{ item }}" dest=/etc/neutron/{{ item }} owner={{ global_os_user }}
   with_items:
     - api-paste.ini
-    - dhcp_agent.ini
-    - l3_agent.ini
-    - metadata_agent.ini
     - metering_agent.ini
     - policy.json
     - rootwrap.conf

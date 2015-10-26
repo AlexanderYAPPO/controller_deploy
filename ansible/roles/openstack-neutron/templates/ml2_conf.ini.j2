@@ -64,7 +64,7 @@ mechanism_drivers = openvswitch
 # can be created. Use * to allow flat networks with arbitrary
 # physical_network names.
 #
-# flat_networks =
+flat_networks = external
 # Example:flat_networks = physnet1,physnet2
 # Example:flat_networks = *
 
@@ -119,3 +119,11 @@ enable_security_group = True
 # requires that ipset is installed on L2 agent node.
 enable_ipset = True
 firewalldriver = nutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+
+[ovs]
+local_ip = {{ my_ip }}
+enable_tunneling = True
+bridge_mappings = external:br-ex
+
+[agent]
+tunnel_types = gre
