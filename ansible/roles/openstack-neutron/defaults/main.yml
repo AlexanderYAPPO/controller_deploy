@@ -8,7 +8,7 @@ my_ip: 127.0.0.1
 neutron_log_dir: /var/log/neutron
 neutron_default_region: RegionOne
 neutron_dir: /tmp/neutron
-neutron_type: controller #controller or compute
+neutron_type: controller #controller or compute or network
 
 # Keystone
 neutron_auth_username: neutron

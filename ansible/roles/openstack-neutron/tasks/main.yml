@@ -12,4 +12,4 @@
 - include: configuration.yml
 
 - include: network_node_configuration.yml
-  when: neutron_type == "controller"
+  when: neutron_type == "network"

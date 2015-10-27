@@ -1,0 +1,25 @@
+---
+
+- hosts: all
+
+  pre_tasks:
+    - apt: update_cache=yes
+      sudo: yes
+    - apt: name=git state=present
+      sudo: yes
+
+  roles:
+    - role: common_dependencies
+
+    - role: openstack-neutron
+      neutron_dir: /home/{{ global_os_user }}/neutron
+      controller_ip: "{{ global_controller_ip }}"
+      my_ip: "{{ global_my_ip }}"
+      neutron_auth_username: "{{ global_neutron_user }}"
+      neutron_auth_password: "{{ global_neutron_password }}"
+      nova_auth_username: "{{ global_nova_user }}"
+      nova_auth_password: "{{ global_nova_password }}"
+      neutron_rabbitmq_ip: "{{ global_controller_ip }}"
+      neutron_rabbitmq_user: "openstack"
+      neutron_rabbitmq_password: "tester"
+      neutron_type: "network"
