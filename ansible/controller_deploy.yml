@@ -81,6 +81,11 @@
       nova_rabbitmq_ip: "{{ global_my_ip }}"
       nova_rabbitmq_user: openstack
       nova_rabbitmq_password: tester
+      nova_neutron_url: "http://{{ global_controller_ip }}:9696"
+      nova_admin_auth_url: "http://{{ global_controller_ip }}:35357/v2.0"
+      nova_glance_ip: "{{ global_controller_ip }}"
+      neutron_auth_username: neutron
+      neutron_auth_password: tester
 
     - role: openstack-horizon
       horizon_dir: /home/{{ global_os_user }}/horizon

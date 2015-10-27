@@ -18,9 +18,15 @@
       nova_dir: /home/{{ global_os_user }}/nova
       nova_database_url: "{{ global_db }}://nova:{{ global_nova_password }}@localhost/nova"
       nova_neutron_url: "{{ global_controller_ip }}"
+      nova_admin_auth_url: "http://{{ global_controller_ip }}:35357/v2.0"
       nova_type: "compute"
       neutron_auth_username: "{{ global_neutron_user }}"
       neutron_auth_password: "{{ global_neutron_password }}"
+      controller_ip: "{{ global_controler_ip }}"
+      my_ip: "{{ global_my_ip }}"
+      nova_rabbitmq_ip: "{{ global_controller_ip }}"
+      nova_rabbitmq_user: openstack
+      nova_rabbitmq_password: tester
 
     - role: openstack-neutron
       neutron_dir: /home/{{ global_os_user }}/neutron

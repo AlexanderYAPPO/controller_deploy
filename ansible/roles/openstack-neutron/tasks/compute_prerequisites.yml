@@ -1,5 +1,5 @@
 - name: Change systl.conf
-  lineinfile: dest=/etc/sysctl.conf state=present line={{ item }}
+  lineinfile: dest=/etc/sysctl.conf state=present line="{{ item }}"
   with_items:
     net.ipv4.conf.all.rp_filter=0
     net.ipv4.conf.default.rp_filter=0
