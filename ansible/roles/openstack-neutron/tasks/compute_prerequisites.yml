@@ -1,0 +1,12 @@
+- name: Change systl.conf
+  lineinfile: dest=/etc/sysctl.conf state=present line={{ item }}
+  with_items:
+    net.ipv4.conf.all.rp_filter=0
+    net.ipv4.conf.default.rp_filter=0
+    net.bridge.bridge-nf-call-iptables=1
+    net.bridge.bridge-nf-call-ip6tables=1
+  sudo: yes
+
+- name: Update sysctl
+  shell: "sysctl -p"
+  sudo: yes

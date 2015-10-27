@@ -1,6 +1,15 @@
 - include: facts.yml
+
 - include: packages.yml
+
+- include: compute_prerequisites.yml
+  when: neutron_type == "compute"
+
 - include: git_repo.yml
+
 - include: python_dependencies.yml
+
 - include: configuration.yml
+
 - include: network_node_configuration.yml
+  when: neutron_type == "controller"

@@ -99,4 +99,5 @@
       neutron_rabbitmq_ip: "{{ global_controller_ip }}"
       neutron_rabbitmq_user: "openstack"
       neutron_rabbitmq_password: "tester"
+      neutron_type: controller
 

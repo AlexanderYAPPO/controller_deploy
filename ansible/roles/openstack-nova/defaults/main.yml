@@ -3,6 +3,10 @@
 controller_ip: 127.0.0.1
 metadata_secret: tester
 my_ip: 127.0.0.1
+
+neutron_auth_username: neutron
+neutron_auth_password: tester
+
 nova_type: controller #controller or compute
 
 # Nova

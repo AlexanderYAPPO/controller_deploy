@@ -62,8 +62,8 @@ url = {{ nova_neutron_url }}
 auth_strategy = keystone
 admin_auth_url = {{ nova_admin_auth_url }}
 admin_tenant_name = service
-admin_username = neutron
-admin_password = tester
+admin_username = {{ neutron_auth_username }}
+admin_password = {{ neutron_auth_password }}
 
 service_metadata_proxy = True
 metadata_proxy_shared_secret = {{ metadata_secret }}

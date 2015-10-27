@@ -31,3 +31,4 @@
 
 - name: Sync Neutron database
   command: '/bin/sh -c "{{ neutron_dir }}/venv/bin/neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron'
+  when: neutron_type == "controller"

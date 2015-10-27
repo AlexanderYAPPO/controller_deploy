@@ -17,4 +17,21 @@
     - role: openstack-nova
       nova_dir: /home/{{ global_os_user }}/nova
       nova_database_url: "{{ global_db }}://nova:{{ global_nova_password }}@localhost/nova"
+      nova_neutron_url: "{{ global_controller_ip }}"
       nova_type: "compute"
+      neutron_auth_username: "{{ global_neutron_user }}"
+      neutron_auth_password: "{{ global_neutron_password }}"
+
+    - role: openstack-neutron
+      neutron_dir: /home/{{ global_os_user }}/neutron
+      neutron_database_url: "{{ global_db }}://neutron:{{ global_neutron_password }}@localhost/neutron"
+      controller_ip: "{{ global_controller_ip }}"
+      my_ip: "{{ global_my_ip }}"
+      neutron_auth_username: "{{ global_neutron_user }}"
+      neutron_auth_password: "{{ global_neutron_password }}"
+      nova_auth_username: "{{ global_nova_user }}"
+      nova_auth_password: "{{ global_nova_password }}"
+      neutron_rabbitmq_ip: "{{ global_controller_ip }}"
+      neutron_rabbitmq_user: "openstack"
+      neutron_rabbitmq_password: "tester"
+      neutron_type: "compute"
