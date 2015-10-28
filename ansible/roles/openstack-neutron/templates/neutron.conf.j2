@@ -786,7 +786,7 @@ connection = {{ neutron_database_url }}
 
 [nova]
 # Name of the plugin to load
-auth_plugin = http://{{ controller_ip }}:35357
+auth_url = http://{{ controller_ip }}:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default

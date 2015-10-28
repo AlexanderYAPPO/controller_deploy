@@ -7,13 +7,13 @@
 #    - /etc/openstack-dashboard
 #
 - name: Configure Horizon
-  template: src="{{ item }}.example.j2" dest={{ horizon_dir }}/openstack-dashboard/{{ item }}
+  template: src="{{ item }}.example.j2" dest={{ horizon_dir }}/openstack_dashboard/{{ item }}
   with_items:
     - local_settings.py
 
 - name: Generate WSGI config file
-  shell: 'PATH="{{ horizon_dir }}/venv/bin:$PATH" bash {{ horizon_dir }}/manage.py make_web_conf --wsgi --force'
+  shell: 'PATH="{{ horizon_dir }}/venv/bin:$PATH" python {{ horizon_dir }}/manage.py make_web_conf --wsgi --force'
 
 - name: Generate Apache config file
-  shell: 'PATH="{{ horizon_dir }}/venv/bin:$PATH" bash {{ horizon_dir }}/manage.py make_web_conf --apache --force > /etc/apache2/sites-available/horizon.conf'
+  shell: 'PATH="{{ horizon_dir }}/venv/bin:$PATH" python {{ horizon_dir }}/manage.py make_web_conf --apache --force > /etc/apache2/sites-available/horizon.conf'
   sudo: yes

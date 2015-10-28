@@ -86,9 +86,9 @@
 #      swift_auth_username: "swift"
 #      swift_auth_password: "tester"
 #      my_ip: "{{ global_my_ip }}"
-
-    - role: client
-      controller_ip: "http://{{ global_controller_ip }}:35357/v2.0"
-      username: "admin"
-      password: "tester"
-      client_dir: "/home/{{ global_os_user }}"
+#
+#    - role: client
+#      controller_ip: "http://{{ global_controller_ip }}:35357/v2.0"
+#      username: "admin"
+#      password: "tester"
+#      client_dir: "/home/{{ global_os_user }}"
