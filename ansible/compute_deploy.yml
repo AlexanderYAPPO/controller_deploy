@@ -22,7 +22,7 @@
       nova_type: "compute"
       neutron_auth_username: "{{ global_neutron_user }}"
       neutron_auth_password: "{{ global_neutron_password }}"
-      controller_ip: "{{ global_controler_ip }}"
+      controller_ip: "{{ global_controller_ip }}"
       my_ip: "{{ global_my_ip }}"
       nova_rabbitmq_ip: "{{ global_controller_ip }}"
       nova_rabbitmq_user: openstack
