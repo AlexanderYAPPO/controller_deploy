@@ -26,4 +26,4 @@
 - name: Sync Cinder database
   command: '/bin/sh -c "{{ cinder_dir }}/venv/bin/cinder-manage db sync" cinder'
 
-- include: configuration_lvm.yml
+#- include: configuration_lvm.yml
