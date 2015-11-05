@@ -25,4 +25,4 @@ neutron_rabbitmq_ip: 127.0.0.1
 neutron_rabbitmq_user: "openstack"
 neutron_rabbitmq_password: "tester"
 
-openstack_version = master
+openstack_version: master

@@ -15,4 +15,4 @@ glance_auth_password: tester
 # Database
 glance_database_url: sqlite:////var/lib/glance/glance.db
 
-openstack_version = master
+openstack_version: master

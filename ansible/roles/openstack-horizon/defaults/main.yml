@@ -8,4 +8,4 @@ horizon_log_dir: /var/log/horizon
 horizon_default_region: RegionOne
 horizon_dir: /tmp/horizon
 
-openstack_version = master
+openstack_version: master

@@ -18,4 +18,4 @@ cinder_auth_password: tester
 # Database
 cinder_database_url: sqlite:////var/lib/cinder/cinder.db
 
-openstack_version = master
+openstack_version: master
