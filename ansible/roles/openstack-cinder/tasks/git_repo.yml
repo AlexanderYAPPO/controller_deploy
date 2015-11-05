@@ -1,5 +1,5 @@
 - name: Clone Cinder
-  git: repo=https://github.com/openstack/cinder.git dest={{ cinder_dir }} clone=yes
+  git: repo=https://github.com/openstack/cinder.git dest={{ cinder_dir }} clone=yes version={{ openstack_version }}
 
 - name: create virtual env
   command: "virtualenv {{ cinder_dir }}/venv"

@@ -27,6 +27,7 @@
       nova_rabbitmq_ip: "{{ global_controller_ip }}"
       nova_rabbitmq_user: openstack
       nova_rabbitmq_password: tester
+      openstack_version: "stable/liberty"
 
     - role: openstack-neutron
       neutron_dir: /home/{{ global_os_user }}/neutron
@@ -41,3 +42,4 @@
       neutron_rabbitmq_user: "openstack"
       neutron_rabbitmq_password: "tester"
       neutron_type: "compute"
+      openstack_version: "stable/liberty"

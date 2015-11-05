@@ -28,6 +28,7 @@
       keystone_part: server
       keystone_admin_token: "{{ global_keystone_token }}"
       keystone_database_url: "{{ global_db }}://keystone:{{ global_keystone_password }}@localhost/keystone"
+      openstack_version: "stable/liberty"
 
     - role: openstack-keystone
       keystone_hostname: "{{ global_controller_ip }}"
@@ -108,11 +109,13 @@
       nova_glance_ip: "{{ global_controller_ip }}"
       neutron_auth_username: neutron
       neutron_auth_password: tester
+      openstack_version: "stable/liberty"
 
     - role: openstack-horizon
       horizon_dir: /home/{{ global_os_user }}/horizon
       controller_ip: "{{ global_controller_ip }}"
       my_ip: "{{ global_my_ip }}"
+      openstack_version: "stable/liberty"
 
     - role: openstack-neutron
       neutron_dir: /home/{{ global_os_user }}/neutron
@@ -127,4 +130,5 @@
       neutron_rabbitmq_user: "openstack"
       neutron_rabbitmq_password: "tester"
       neutron_type: controller
+      openstack_version: "stable/liberty"
 

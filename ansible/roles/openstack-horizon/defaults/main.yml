@@ -7,3 +7,5 @@ my_ip: 127.0.0.1
 horizon_log_dir: /var/log/horizon
 horizon_default_region: RegionOne
 horizon_dir: /tmp/horizon
+
+openstack_version = master

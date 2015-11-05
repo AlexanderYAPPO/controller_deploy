@@ -27,6 +27,7 @@
       controller_ip: "{{ global_controller_ip }}"
       glance_auth_username: "glance"
       glance_auth_password: "tester"
+      openstack_version: "stable/liberty"
 
     - role: openstack-cinder
       cinder_dir: /home/{{ global_os_user }}/cinder
@@ -38,6 +39,7 @@
       cinder_rabbitmq_ip: "{{ global_controller_ip }}"
       cinder_rabbitmq_user: "openstack"
       cinder_rabbitmq_password: "tester"
+      openstack_version: "stable/liberty"
 
 #    - role: openstack-swift
 #      swift_dir: /home/{{ global_os_user }}/swift

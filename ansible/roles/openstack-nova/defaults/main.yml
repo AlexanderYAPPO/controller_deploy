@@ -37,3 +37,5 @@ nova_rabbitmq_password: tester
 
 # Oslo
 nova_oslo_lock_path: /var/lib/nova/tmp
+
+openstack_version: master

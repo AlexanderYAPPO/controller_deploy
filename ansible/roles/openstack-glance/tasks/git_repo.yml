@@ -1,5 +1,5 @@
 - name: Clone Glance
-  git: repo=https://github.com/openstack/glance.git dest={{ glance_dir }} clone=yes
+  git: repo=https://github.com/openstack/glance.git dest={{ glance_dir }} clone=yes version={{ openstack_version }}
 
 - name: create virtual env
   command: "virtualenv {{ glance_dir }}/venv"

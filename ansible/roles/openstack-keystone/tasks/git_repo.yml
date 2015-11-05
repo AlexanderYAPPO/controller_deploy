@@ -1,5 +1,5 @@
 - name: clone keystone
-  git: repo=https://github.com/openstack/keystone.git dest={{ keystone_dir }} clone=yes
+  git: repo=https://github.com/openstack/keystone.git dest={{ keystone_dir }} clone=yes version={{ openstack_version }}
 
 - name: create virtual env
   command: "virtualenv {{ keystone_dir }}/venv"

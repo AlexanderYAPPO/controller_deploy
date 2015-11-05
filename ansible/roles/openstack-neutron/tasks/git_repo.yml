@@ -1,5 +1,5 @@
 - name: Clone Neutron
-  git: repo=https://github.com/openstack/neutron.git dest={{ neutron_dir }} clone=yes
+  git: repo=https://github.com/openstack/neutron.git dest={{ neutron_dir }} clone=yes version={{ openstack_version }}
 
 - name: create virtual env
   command: "virtualenv {{ neutron_dir }}/venv"

@@ -1,5 +1,5 @@
 - name: Clone Horizon
-  git: repo=https://github.com/openstack/horizon.git dest={{ horizon_dir }} clone=yes
+  git: repo=https://github.com/openstack/horizon.git dest={{ horizon_dir }} clone=yes version={{ openstack_version }}
 
 - name: create virtual env
   command: "virtualenv {{ horizon_dir }}/venv"

@@ -1,5 +1,6 @@
 - name: clone nova
-  git: repo=https://github.com/openstack/nova.git dest={{ nova_dir }} clone=yes
+  git: repo=https://github.com/openstack/nova.git dest={{ nova_dir }} clone=yes version={{ openstack_version }}
+
 - name: create virtual env
   command: "virtualenv {{ nova_dir }}/venv"
 

@@ -5,3 +5,5 @@ swift_auth_password: "tester"
 my_ip: 127.0.0.1
 hash_suffix: "123"
 hash_prefix: "123"
+
+openstack_version = master
