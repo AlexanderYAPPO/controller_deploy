@@ -21,4 +21,5 @@
   apt: name="{{ item }}" state=present
   with_items:
     - openvswitch-switch
+    - ebtables
   sudo: yes
