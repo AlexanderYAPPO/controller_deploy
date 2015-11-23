@@ -24,7 +24,7 @@ Available scripts:
 4. `current_to_testing.sh` Copies all files from current to testing partition.
 5. `testing_to_stable.sh` Copies all files from testing to stable partition.
 6. `change_mode.sh` Switching between modes. Usage: change_mode.sh [current | testing | off]
-7. `clean_partition` Cleans out current and testing partitions. Usage: change_mode.sh <current | testing>
+7. `clean_partition.sh` Cleans out current or testing partition. Usage: clean_partition.sh <current | testing>
 
 Some actions, such as copying files from testing to stable while overlayfs is mounted are against overlayfs rules.
 In all such cases a user will be warned. Immediate reboot after completing these actions is strongly recommended.
