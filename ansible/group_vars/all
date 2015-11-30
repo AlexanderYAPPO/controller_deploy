@@ -3,7 +3,11 @@
 global_cinder_user: cinder
 global_cinder_password: tester
 
+# This is X.X.21.X in our case
 global_controller_ip: 127.0.0.1
+
+# This is X.X.15.X in our case
+global_controller_management_ip: 127.0.0.1
 
 global_glance_ip: 127.0.0.1
 global_glance_user: glance

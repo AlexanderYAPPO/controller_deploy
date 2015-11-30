@@ -9,8 +9,13 @@
     - /var/lib/nova
     - /var/lib/nova/instances
 
-- name: Configure Nova
-  template: src=nova.conf.j2 dest=/etc/nova/nova.conf
+- name: Configure Nova (Controller)
+  template: src=nova.conf.controller.j2 dest=/etc/nova/nova.conf
+  when: nova_type == "controller"
+
+- name: Configure Nova (Compute)
+  template: src=nova.conf.compute.j2 dest=/etc/nova/nova.conf
+  when: nova_type == "compute"
 
 - name: Copy Nova compute configuration files
   copy: src=nova-compute.conf dest=/etc/nova/nova-compute.conf owner={{ global_os_user }}

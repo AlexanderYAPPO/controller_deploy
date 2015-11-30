@@ -25,8 +25,10 @@ my_ip = {{ my_ip }}
 
 vnc_enabled = True
 vncserver_listen = 0.0.0.0
-vncserver_proxyclient_address = {{ controller_ip }}
-novncproxy_base_url = http://{{ controller_ip }}:6080/vnc_auto.html
+vncserver_proxyclient_address = {{ my_ip }}
+# public address (in most cases the same as horizon address)
+novncproxy_base_url = http://{{ nova_novnc_public_ip }}:6080/vnc_auto.html
+xvpvncproxy_base_url = http://{{ nova_novnc_public_ip }}:6081/console
 
 network_api_class = nova.network.neutronv2.api.API
 security_group_api = neutron
