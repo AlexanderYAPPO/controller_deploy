@@ -1,0 +1,7 @@
+deploy_type: controller
+nova_dir: /home/tester/nova
+glance_dir: /home/tester/glance
+neutron_dir: /home/tester/neutron
+horizon_dir: /home/tester/horizon
+horizon_address: 0.0.0.0:9000
+script_dir: ~
