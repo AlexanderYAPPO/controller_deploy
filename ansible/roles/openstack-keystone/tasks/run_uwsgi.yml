@@ -32,7 +32,7 @@
   sudo: yes
 
 - name: Running Keystone over uWSGI #only admin supported so far
-  shell: "source {{ keystone_dir }}/venv/bin/activate; {{ keystone_dir }}/venv/bin/uwsgi --daemonize2 --ini /tmp/uwsgi-keystone-{{ item }}.ini"
+  shell: "source {{ keystone_dir }}/venv/bin/activate; {{ keystone_dir }}/venv/bin/uwsgi --daemonize2 --ini /etc/keystone/uwsgi-keystone-{{ item }}.ini"
   with_items:
     - 'admin'
     - 'main'
