@@ -4,4 +4,4 @@ glance_dir: /home/tester/glance
 neutron_dir: /home/tester/neutron
 horizon_dir: /home/tester/horizon
 horizon_address: 0.0.0.0:9000
-script_dir: ~
+script_dir: /tmp

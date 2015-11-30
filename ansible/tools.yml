@@ -1,11 +1,14 @@
 ---
+
+- hosts: all
+
   roles:
     - role: client-environment
       controller_ip: http://127.0.0.1:35357
       username: "{{ global_keystone_user }}"
       password: "{{ global_keystone_password }}"
       tenant: "{{ global_keystone_tenant }}"
-      client_dir: ~
+      client_dir: /tmp
 
     - role: management-scripts
       nova_dir: "/home/{{ global_os_user }}/nova"
@@ -14,4 +17,4 @@
       neutron_dir: "/home/{{ global_os_user }}/neutron"
       horizon_dir: "/home/{{ global_os_user }}/horizon"
       horizon_address: 0.0.0.0:9000
-      script_dir: ~
+      script_dir: /tmp

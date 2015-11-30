@@ -1,0 +1,48 @@
+# Compute
+- name: Nova compute
+  lineinfile: dest={{ scipt_dir }}/run_servcies.sh line="nohup bash -c '. {{ nova_dir }}/venv/bin/activate && nova-compute --config-file=/etc/nova/nova.conf --config-file=/etc/nova/nova-compute.conf' > nova-compute.log 2>&1 &"
+  when: deploy_type == "compute"
+
+- name: Neutron openvswitch-agent
+  lineinfile: dest={{ scipt_dir }}/run_servcies.sh line="nohup bash -c '. {{ neutron_dir }}/venv/bin/activate && neutron-openvswitch-agent --config-file=/etc/neutron/neutron.conf  --config-file=/etc/neutron/plugins/ml2/ml2_conf.ini' > neutron-openvswitch-agent.log 2>&1 &"
+  when: deploy_type == "compute"
+
+# Controller
+- name: Nova api
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ nova_dir }}/venv/bin/activate && nova-api --config-file=/etc/nova/nova.conf' > nova-api.log 2>&1 &"
+  when: deploy_type == "controller"
+- name: Nova cert
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ nova_dir }}/venv/bin/activate && nova-cert --config-file=/etc/nova/nova.conf' > nova-cert.log 2>&1 &"
+  when: deploy_type == "controller"
+- name: Nova consoleauth
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ nova_dir }}/venv/bin/activate && nova-consoleauth --config-file=/etc/nova/nova.conf' > nova-consoleauth.log 2>&1 &"
+  when: deploy_type == "controller"
+- name: Nova scheduler
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ nova_dir }}/venv/bin/activate && nova-scheduler --config-file=/etc/nova/nova.conf' > nova-scheduler.log 2>&1 &"
+  when: deploy_type == "controller"
+- name: Nova conductor
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ nova_dir }}/venv/bin/activate && nova-conductor --config-file=/etc/nova/nova.conf' > nova-conductor.log 2>&1 &"
+  when: deploy_type == "controller"
+- name: Nova novncproxy
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ nova_dir }}/venv/bin/activate && nova-novncproxy --config-file=/etc/nova/nova.conf' > nova-novncproxy.log 2>&1 &"
+  when: deploy_type == "controller"
+
+- name: Neutron server
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ neutron_dir }}/venv/bin/activate && neutron-server --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/plugins/ml2/ml2_conf.ini' > neutron-server.log 2>&1 &"
+  when: deploy_type == "controller"
+- name: Neutron openvswitch-agent
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ neutron_dir }}/venv/bin/activate && neutron-openvswitch-agent --config-file=/etc/neutron/neutron.conf  --config-file=/etc/neutron/plugins/ml2/ml2_conf.ini' > neutron-openvswitch-agent.log 2>&1 &"
+  when: deploy_type == "controller"
+- name: Neutron dhcp-agent
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ neutron_dir }}/venv/bin/activate && neutron-dhcp-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/dhcp_agent.ini' > neutron-dhcp-agent.log 2>&1 &"
+  when: deploy_type == "controller"
+- name: Neutron metadata-agent
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ neutron_dir }}/venv/bin/activate && neutron-metadata-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/metadata_agent.ini' > neutron-metadata-agent.log 2>&1 &"
+  when: deploy_type == "controller"
+- name: Neutron l3-agent
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ neutron_dir }}/venv/bin/activate && neutron-l3-agent --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/l3_agent.ini' > neutron-l3-agent.log 2>&1 &"
+  when: deploy_type == "controller"
+
+- name: Horizon
+  lineinfile: dest={{ script_dir }}/run_servcies.sh line="nohup bash -c '. {{ horizon_dir }}/.venv/bin/activate && cd {{ horizon_dir }} && ./run_tests.sh --runserver {{ horizon_address }}' > horizon.log 2>&1 &"
+  when: deploy_type == "controller"
