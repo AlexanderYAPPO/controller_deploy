@@ -5,6 +5,7 @@ global_cinder_password: tester
 
 global_controller_ip: 127.0.0.1
 
+global_glance_ip: 127.0.0.1
 global_glance_user: glance
 global_glance_password: tester
 
@@ -20,6 +21,8 @@ global_nova_password: tester
 global_mariadb_user: root
 global_mariadb_password: tester
 
+global_metadata_secret: tester
+
 global_my_ip: 127.0.0.1
 
 global_neutron_user: neutron
@@ -29,6 +32,10 @@ global_os_user: tester
 global_postgresql_password: tester
 global_region: RegionOne
 global_run_type: apache # eventlet or profile or uwsgi or apache
+
+global_rabbitmq_user: openstack
+global_rabbitmq_password: tester
+
 global_db: postgresql # mysql or postgresql
 global_skip: False
 

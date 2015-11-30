@@ -5,6 +5,6 @@
 #  when: global_db == "postgresql"
 #
 - name: install horizon dependencies
-  pip: name={{ item }} virtualenv={{ horizon_dir }}/venv
+  pip: name={{ item }} virtualenv={{ horizon_dir }}/.venv
   with_items:
     - python-memcached

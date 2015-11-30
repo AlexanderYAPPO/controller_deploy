@@ -22,4 +22,6 @@
   with_items:
     - openvswitch-switch
     - ebtables
+    - dnsmasq
+    - arping
   sudo: yes

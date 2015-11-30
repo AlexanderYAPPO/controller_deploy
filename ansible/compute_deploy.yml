@@ -25,8 +25,8 @@
       controller_ip: "{{ global_controller_ip }}"
       my_ip: "{{ global_my_ip }}"
       nova_rabbitmq_ip: "{{ global_controller_ip }}"
-      nova_rabbitmq_user: openstack
-      nova_rabbitmq_password: tester
+      nova_rabbitmq_user: "{{ global_rabbitmq_user }}"
+      nova_rabbitmq_password: "{{ global_rabbitmq_password }}"
       openstack_version: "stable/liberty"
 
     - role: openstack-neutron
@@ -39,7 +39,8 @@
       nova_auth_username: "{{ global_nova_user }}"
       nova_auth_password: "{{ global_nova_password }}"
       neutron_rabbitmq_ip: "{{ global_controller_ip }}"
-      neutron_rabbitmq_user: "openstack"
-      neutron_rabbitmq_password: "tester"
+      neutron_rabbitmq_user: "{{ global_rabbitmq_user }}"
+      neutron_rabbitmq_password: "{{ global_rabbitmq_password }}"
       neutron_type: "compute"
       openstack_version: "stable/liberty"
+      metadata_secret: "{{ global_metadata_secret }}"

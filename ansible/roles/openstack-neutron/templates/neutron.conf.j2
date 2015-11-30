@@ -1,6 +1,6 @@
 [DEFAULT]
 # Print more verbose output (set logging level to INFO instead of default WARNING level).
-# verbose = False
+verbose = True
 
 # =========Start Global Config Option for Distributed L3 Router===============
 # Setting the "router_distributed" flag to "True" will default to the creation
@@ -728,11 +728,15 @@ rpc_backend=rabbit
 # ===========  end of items for agent management extension =====
 
 [keystone_authtoken]
-auth_uri = http://{{ controller_ip }}:35357/v2.0/
+auth_url = http://{{ controller_ip }}:35357
+auth_uri = http://{{ controller_ip }}:5000
 identity_uri = http://{{ controller_ip }}:5000
 admin_tenant_name = service
 admin_user = {{ neutron_auth_username }}
 admin_password = {{ neutron_auth_password }}
+username = {{ neutron_auth_username }}
+password = {{ neutron_auth_password }}
+project_name = service
 project_domain_id = default
 user_domain_id = default
 
