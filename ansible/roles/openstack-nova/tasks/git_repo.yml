@@ -8,7 +8,7 @@
   pip: requirements={{ nova_dir }}/requirements.txt virtualenv={{ nova_dir }}/venv extra_args='--no-cache-dir'
 
 - name: setup.py install
-  shell: "{{ nova_dir }}/venv/bin/python {{ nova_dir }}/setup.py install"
+  shell: ". ./venv/bin/activate && python setup.py install"
   args:
     chdir: "{{ nova_dir }}"
 

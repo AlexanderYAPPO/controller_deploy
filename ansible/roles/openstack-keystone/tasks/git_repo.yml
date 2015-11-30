@@ -8,6 +8,6 @@
   pip: requirements={{ keystone_dir }}/requirements.txt virtualenv={{ keystone_dir }}/venv extra_args='--no-cache-dir'
 
 - name: setup.py install
-  shell: "{{ keystone_dir }}/venv/bin/python {{ keystone_dir }}/setup.py install"
+  shell: ". ./venv/bin/activate && python setup.py install"
   args:
     chdir: "{{ keystone_dir }}"

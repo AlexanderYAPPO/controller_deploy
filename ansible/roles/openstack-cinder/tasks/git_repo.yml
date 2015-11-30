@@ -8,7 +8,7 @@
   pip: requirements={{ cinder_dir }}/requirements.txt virtualenv={{ cinder_dir }}/venv extra_args='--no-cache-dir'
 
 - name: setup.py install
-  shell: "{{ cinder_dir }}/venv/bin/python {{ cinder_dir }}/setup.py install"
+  shell: ". ./venv/bin/activate && python setup.py install"
   args:
     chdir: "{{ cinder_dir }}"
 
