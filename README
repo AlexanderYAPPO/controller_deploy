@@ -1,0 +1,7 @@
+All parameters are set via ansible/grop_vars/all file
+
+To deploy a controller node run controller_deploy.yml
+To deploy a compute node run compute_deploy.yml
+To deploy a node with glance run utils_deploy.yml
+
+To
