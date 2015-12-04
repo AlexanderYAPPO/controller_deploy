@@ -8,6 +8,6 @@
   pip: requirements={{ neutron_dir }}/requirements.txt virtualenv={{ neutron_dir }}/venv extra_args='--no-cache-dir'
 
 - name: setup.py install
-  shell: ". ./venv/bin/adctivate && python setup.py install"
+  shell: ". ./venv/bin/activate && python setup.py install"
   args:
     chdir: "{{ neutron_dir }}"

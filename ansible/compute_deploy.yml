@@ -29,6 +29,7 @@
       nova_rabbitmq_password: "{{ global_rabbitmq_password }}"
       openstack_version: "stable/liberty"
       nova_novnc_public_ip: "{{ global_controller_management_ip }}"
+      nova_glance_ip: "{{ nova_glance_ip }}"
 
     - role: openstack-neutron
       neutron_dir: /home/{{ global_os_user }}/neutron

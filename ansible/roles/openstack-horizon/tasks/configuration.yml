@@ -7,7 +7,7 @@
 #    - /etc/openstack-dashboard
 #
 - name: Configure Horizon
-  template: src="{{ item }}.example.j2" dest={{ horizon_dir }}/openstack_dashboard/{{ item }}
+  template: src="{{ item }}.example.j2" dest={{ horizon_dir }}/openstack_dashboard/local/{{ item }}
   with_items:
     - local_settings.py
 

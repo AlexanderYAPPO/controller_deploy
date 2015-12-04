@@ -22,7 +22,7 @@ nova_auth_username: nova
 nova_auth_password: tester
 
 # Glance
-nova_glance_ip: 10.10.10.121
+nova_glance_ip: 127.0.0.1
 
 # Neutron
 nova_neutron_url: http://127.0.0.1:9696
