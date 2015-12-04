@@ -130,7 +130,7 @@
       neutron_rabbitmq_ip: "{{ global_controller_ip }}"
       neutron_rabbitmq_user: "{{ global_rabbitmq_user }}"
       neutron_rabbitmq_password: "{{ global_rabbitmq_password }}"
-      neutron_type: controller
+      neutron_type: "{{ global_deploy_type }}"
       openstack_version: "stable/liberty"
       metadata_secret: "{{ global_metadata_secret }}"
 

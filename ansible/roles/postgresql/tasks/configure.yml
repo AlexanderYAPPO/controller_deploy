@@ -87,11 +87,11 @@
   sudo_user: "{{ postgresql_service_user }}"
 
 - name: Change owners 
-  shell: "chown -R postgres:postgres /var/lib/postgresql/9.3/main"
+  shell: "chown -R postgres:postgres /var/lib/postgresql/{{ postgresql_version }}/main"
   sudo: yes
 
 - name: Change owners
-  shell: "chown -R postgres:postgres /etc/postgresql/9.3/main"
+  shell: "chown -R postgres:postgres /etc/postgresql/{{ postgresql_version }}/main"
   sudo: yes
 
 - name: PostgreSQL | Restart PostgreSQL

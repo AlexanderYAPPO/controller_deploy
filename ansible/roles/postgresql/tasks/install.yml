@@ -13,18 +13,21 @@
     url: "{{ postgresql_apt_key_url }}"
     state: present
   when: postgresql_apt_key_url and postgresql_apt_key_id
+  sudo: yes
 
 - name: PostgreSQL | Add PostgreSQL repository
   apt_repository:
     repo: "{{ postgresql_apt_repository }}"
     state: present
   when: postgresql_apt_repository
+  sudo: yes
 
 - name: PostgreSQL | Add PostgreSQL repository preferences
   template:
     src: etc_apt_preferences.d_apt_postgresql_org_pub_repos_apt.pref.j2
     dest: /etc/apt/preferences.d/apt_postgresql_org_pub_repos_apt.pref
   when: postgresql_apt_pin_priority
+  sudo: yes
 
 - name: PostgreSQL | Make sure the dependencies are installed
   apt:

@@ -29,7 +29,7 @@
       nova_rabbitmq_password: "{{ global_rabbitmq_password }}"
       openstack_version: "stable/liberty"
       nova_novnc_public_ip: "{{ global_controller_management_ip }}"
-      nova_glance_ip: "{{ nova_glance_ip }}"
+      nova_glance_ip: "{{ global_glance_ip }}"
 
     - role: openstack-neutron
       neutron_dir: /home/{{ global_os_user }}/neutron
@@ -43,6 +43,6 @@
       neutron_rabbitmq_ip: "{{ global_controller_ip }}"
       neutron_rabbitmq_user: "{{ global_rabbitmq_user }}"
       neutron_rabbitmq_password: "{{ global_rabbitmq_password }}"
-      neutron_type: "compute"
+      neutron_type: "{{ global_deploy_type }}"
       openstack_version: "stable/liberty"
       metadata_secret: "{{ global_metadata_secret }}"
