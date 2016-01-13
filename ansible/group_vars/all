@@ -10,7 +10,7 @@ global_controller_ip: 127.0.0.1
 global_controller_management_ip: 127.0.0.1
 
 # controller or compute for tools only
-global_deploy_type: controller #controller or compute or utility
+global_deploy_type: utility #controller or compute or utility
 
 # X.X.21.X
 global_glance_ip: 127.0.0.1

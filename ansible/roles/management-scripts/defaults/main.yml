@@ -2,8 +2,11 @@ deploy_type: controller
 nova_dir: /home/tester/nova
 glance_dir: /home/tester/glance
 neutron_dir: /home/tester/neutron
-horizon_dir: /home/tester/horizon
+horizon_dir: /home/tester/webui
 keystone_dir: /home/tester/keystone
+cinder_dir: /home/tester/cinder
+heat_dir: /home/tester/heat
+sahara_dir: /home/tester/sahara
 horizon_address: 0.0.0.0:9000
 script_dir: /tmp
 log_dir: .

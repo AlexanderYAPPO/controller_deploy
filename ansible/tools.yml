@@ -19,5 +19,8 @@
       neutron_dir: "/home/{{ global_os_user }}/neutron"
       horizon_dir: "/home/{{ global_os_user }}/webui"
       keystone_dir: "/home/{{ global_os_user }}/keystone"
+      cinder_dir: "/home/{{ global_os_user }}/cinder"
+      heat_dir: "/home/{{ global_os_user }}/heat"
+      sahara_dir: "/home/{{ global_os_user }}/sahara"
       horizon_address: 0.0.0.0:9000
       script_dir: "/home/{{ global_os_user }}/clients"

@@ -88,5 +88,45 @@
               dest={{ script_dir }}/run_services.sh line="nohup bash -c '. {{ glance_dir }}/venv/bin/activate && glance-api' > {{ log_dir }}/glance-api.log 2>&1 &"
   when: deploy_type == "utility"
 
+- name: Glance registry
+  lineinfile: create=yes
+              dest={{ script_dir }}/run_services.sh line="nohup bash -c '. {{ glance_dir }}/venv/bin/activate && glance-registry' > {{ log_dir }}/glance-registry.log 2>&1 &"
+  when: deploy_type == "utility"
+
+- name: Cinder volume
+  lineinfile: create=yes
+              dest={{ script_dir }}/run_services.sh line="nohup bash -c '. {{ cinder_dir }}/venv/bin/activate && cinder-volume --config-file /etc/cinder/cinder.conf' > {{ log_dir }}/cinder-volume.log 2>&1 &"
+  when: deploy_type == "utility"
+
+- name: Cinder api
+  lineinfile: create=yes
+              dest={{ script_dir }}/run_services.sh line="nohup bash -c '. {{ cinder_dir }}/venv/bin/activate && cinder-api --config-file /etc/cinder/cinder.conf' > {{ log_dir }}/cinder-api.log 2>&1 &"
+  when: deploy_type == "utility"
+
+- name: Cinder scheduler
+  lineinfile: create=yes
+              dest={{ script_dir }}/run_services.sh line="nohup bash -c '. {{ cinder_dir }}/venv/bin/activate && cinder-volume --config-file /etc/cinder/cinder.conf' > {{ log_dir }}/cinder-scheduler.log 2>&1 &"
+  when: deploy_type == "utility"
+
+- name: Heat api
+  lineinfile: create=yes
+              dest={{ script_dir }}/run_services.sh line="nohup bash -c '. {{ heat_dir }}/venv/bin/activate && heat-api' > {{ log_dir }}/heat-api.log 2>&1 &"
+  when: deploy_type == "utility"
+
+- name: Heat api-cfn
+  lineinfile: create=yes
+              dest={{ script_dir }}/run_services.sh line="nohup bash -c '. {{ heat_dir }}/venv/bin/activate && heat-api-cfn' > {{ log_dir }}/heat-api-cfn.log 2>&1 &"
+  when: deploy_type == "utility"
+
+- name: Heat engine
+  lineinfile: create=yes
+              dest={{ script_dir }}/run_services.sh line="nohup bash -c '. {{ heat_dir }}/venv/bin/activate && heat-engine' > {{ log_dir }}/heat-engine.log 2>&1 &"
+  when: deploy_type == "utility"
+
+- name: Sahara all
+  lineinfile: create=yes
+              dest={{ script_dir }}/run_services.sh line="nohup bash -c '. {{ sahara_dir }}/venv/bin/activate && sahara-all --config-file {{ sahara_dir }}/venv/etc/sahara.conf' > {{ log_dir }}/sahara-all.log 2>&1 &"
+  when: deploy_type == "utility"
+
 - name: Change permissions
   file: path={{ script_dir }}/run_services.sh mode="u+x,g+x,o+x"
