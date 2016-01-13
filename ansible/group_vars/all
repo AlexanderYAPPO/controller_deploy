@@ -38,7 +38,7 @@ global_my_ip: 127.0.0.1
 global_neutron_user: neutron
 global_neutron_password: tester
 
-global_os_user: tester
+global_os_user: ubuntu
 global_postgresql_password: tester
 global_region: RegionOne
 # UWSGI is preferred

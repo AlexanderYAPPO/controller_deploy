@@ -1,3 +1,2 @@
-#- include: facts.yml
-#- include: packeges.yml
 - include: configuration.yml
+- include: install_clients.yml

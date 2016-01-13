@@ -1,2 +1,5 @@
+- name: Create client directory
+  file: path={{ client_dir }}/venv state=directory mode=0755
+
 - name: Copy source file
   template: src=admin.sh.j2 dest={{ client_dir }}/admin.sh

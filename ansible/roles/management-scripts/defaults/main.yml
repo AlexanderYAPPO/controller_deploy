@@ -3,5 +3,7 @@ nova_dir: /home/tester/nova
 glance_dir: /home/tester/glance
 neutron_dir: /home/tester/neutron
 horizon_dir: /home/tester/horizon
+keystone_dir: /home/tester/keystone
 horizon_address: 0.0.0.0:9000
 script_dir: /tmp
+log_dir: .

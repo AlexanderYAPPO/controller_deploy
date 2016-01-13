@@ -4,7 +4,7 @@
   pip: name=psycopg2 virtualenv={{ glance_dir }}/venv
   when: global_db == "postgresql"
 
-- name: install python-swiftclient
+- name: install python clients
   pip: name={{ item }} virtualenv={{ glance_dir }}/venv
   with_items:
     - python-glanceclient

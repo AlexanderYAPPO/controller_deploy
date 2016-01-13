@@ -1,0 +1,17 @@
+---
+
+
+- name: Create virtual env
+  command: "virtualenv {{ client_dir }}"
+
+- name: Install OpenStack Python client packages
+  pip: name={{ item }} virtualenv={{ client_dir }}/venv
+  with_items:
+    - python-openstackclient
+    - python-novaclient
+    - python-glanceclient
+    - python-cinderclient
+    - python-swiftclient
+    - python-neutronclient
+    - python-heatclient
+    - python-ceilometerclient

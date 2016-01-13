@@ -1,50 +1,72 @@
 # Compute
 - name: Nova compute
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 nova-compute"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 nova-compute"
   when: deploy_type == "compute"
 - name: Nova novncproxy
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 nova-novncproxy"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 nova-novncproxy"
   when: deploy_type == "compute"
 
 - name: Neutron openvswitch-agent
-  lineinfile: dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-openvswitch-agent"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-openvswitch-agent"
   when: deploy_type == "compute"
 
 # Controller
 - name: Nova novncproxy
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 nova-novncproxy"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 nova-novncproxy"
   when: deploy_type == "controller"
 - name: Nova conductor
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 nova-conductor"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 nova-conductor"
   when: deploy_type == "controller"
 - name: Nova scheduler
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 nova-scheduler"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 nova-scheduler"
   when: deploy_type == "controller"
 - name: Nova consoleauth
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 nova-consoleauth"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 nova-consoleauth"
   when: deploy_type == "controller"
 - name: Nova cert
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 nova-cert"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 nova-cert"
   when: deploy_type == "controller"
 - name: Nova api
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 nova-api"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 nova-api"
   when: deploy_type == "controller"
 
 - name: Neutron l3-agent
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-l3-agent"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-l3-agent"
   when: deploy_type == "controller"
 - name: Neutron metadata-agent
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-metadata-agent"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-metadata-agent"
   when: deploy_type == "controller"
 - name: Neutron dhcp-agent
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-dhcp-agent"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-dhcp-agent"
   when: deploy_type == "controller"
 - name: Neutron openvswitch-agent
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-openvswitch-agent"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-openvswitch-agent"
   when: deploy_type == "controller"
 - name: Neutron server
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-server"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-server"
   when: deploy_type == "controller"
 - name: Neutron ns-metadata-proxy
-  lineinfile: create=yes dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-ns-metadata-proxy"
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 neutron-ns-metadata-proxy"
   when: deploy_type == "controller"
+- name: uWSGI
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="killall -9 uwsgi"
+  when: deploy_type == "controller"
+
+- name: Change permissions
+  file: path={{ script_dir }}/kill_services.sh mode="u+x,g+x,o+x"
