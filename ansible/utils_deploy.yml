@@ -39,6 +39,7 @@
       cinder_rabbitmq_ip: "{{ global_controller_ip }}"
       cinder_rabbitmq_user: "{{ global_rabbitmq_user }}"
       cinder_rabbitmq_password: "{{ global_rabbitmq_password }}"
+      cinder_glance_ip: "{{ global_glance_ip }}"
       openstack_version: "stable/liberty"
 
 #    - role: openstack-swift
