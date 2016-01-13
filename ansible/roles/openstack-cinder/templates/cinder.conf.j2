@@ -3487,3 +3487,6 @@ rabbit_password = {{ cinder_rabbitmq_password }}
 
 # If False doesn't trace SQL requests. (boolean value)
 #trace_sqlalchemy = false
+
+[keymgr]
+encryption_auth_url=http://{{ controller_ip }}:5000/v3

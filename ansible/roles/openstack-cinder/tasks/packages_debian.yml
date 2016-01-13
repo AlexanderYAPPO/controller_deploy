@@ -6,4 +6,8 @@
     - lvm2
     - libxml2-dev
     - libxslt1-dev
+    - tgt
+    - qemu
+    - qemu-system
+    - qemu-kvm
   sudo: yes

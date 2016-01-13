@@ -111,6 +111,7 @@
       neutron_auth_password: "{{ global_neutron_password }}"
       openstack_version: "stable/liberty"
       nova_novnc_public_ip: "{{ global_controller_management_ip }}"
+      metadata_secret: "{{ global_metadata_secret }}"
 
     - role: openstack-horizon
       horizon_dir: /home/{{ global_os_user }}/horizon

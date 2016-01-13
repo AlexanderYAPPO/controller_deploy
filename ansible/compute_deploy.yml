@@ -30,6 +30,7 @@
       openstack_version: "stable/liberty"
       nova_novnc_public_ip: "{{ global_controller_management_ip }}"
       nova_glance_ip: "{{ global_glance_ip }}"
+      metadata_secret: "{{ global_metadata_secret }}"
 
     - role: openstack-neutron
       neutron_dir: /home/{{ global_os_user }}/neutron
