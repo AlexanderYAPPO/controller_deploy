@@ -1,2 +1,8 @@
 - include: create_run_script.yml
+  when: deploy_type == "controller" or deploy_type == "compute" or deploy_type == "storage"
+
 - include: create_kill_script.yml
+  when: deploy_type == "controller" or deploy_type == "compute" or deploy_type == "storage"
+
+- include: create_restart_script.yml
+  when: deploy_type == "object_storage"

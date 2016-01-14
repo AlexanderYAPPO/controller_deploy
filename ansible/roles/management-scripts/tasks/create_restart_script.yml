@@ -1,0 +1,30 @@
+- name: Interpreter name
+  lineinfile: create=yes
+              dest={{ script_dir }}/restart_services.sh
+              line="#!/usr/bin/bash"
+
+# Object storage
+- name: Restart Swift
+  lineinfile: create=yes
+              dest={{ script_dir }}/restart_services.sh
+              line="service {{ item }} restart"
+  with_items:
+    - swift-account
+    - swift-container
+    - swift-object
+
+- name: Restart Ceilometer
+  lineinfile: create=yes
+              dest={{ script_dir }}/restart_services.sh
+              line="service {{ item }} restart"
+  with_items:
+    - ceilometer-agent-central
+    - ceilometer-agent-notification
+    - ceilometer-api
+    - ceilometer-collector
+    - ceilometer-alarm-evaluator
+    - ceilometer-alarm-notifier
+
+- name: Change permissions
+  file: path={{ script_dir }}/restart_services.sh mode="u+x,g+x,o+x"
+
