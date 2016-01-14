@@ -7,6 +7,14 @@
       sudo: yes
     - apt: name=git state=present
       sudo: yes
+    - lineinfile: dest=/etc/sudoers
+                  regexp="^\s*Defaults\s+secure_path"
+                  line='Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/lib/udev"'
+      sudo: yes
+    - lineinfile: dest=/etc/environment
+                  regexp="^\s*PATH"
+                  line='PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/lib/udev"'
+      sudo: yes
 
   roles:
     - role: common_dependencies
