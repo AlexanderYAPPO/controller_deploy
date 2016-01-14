@@ -1,6 +1,6 @@
 ---
 
-- hosts: test_host
+- hosts: all
 
   roles:
     - role: common_dependencies

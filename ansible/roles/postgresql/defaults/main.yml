@@ -306,7 +306,7 @@ postgresql_random_page_cost:          4.0     # same scale as above
 postgresql_cpu_tuple_cost:            0.01    # same scale as above
 postgresql_cpu_index_tuple_cost:      0.005   # same scale as above
 postgresql_cpu_operator_cost:         0.0025  # same scale as above
-postgresql_effective_cache_size:      128MB
+postgresql_effective_cache_size:      4GB
 
 
 # - Genetic Query Optimizer -
