@@ -1,3 +1,7 @@
+- name: Interpreter name
+  lineinfile: create=yes
+              dest={{ script_dir }}/kill_services.sh line="#!/usr/bin/bash"
+
 # Compute
 - name: Nova compute
   lineinfile: create=yes
@@ -68,43 +72,43 @@
               dest={{ script_dir }}/kill_services.sh line="killall -9 uwsgi"
   when: deploy_type == "controller"
 
-# Utility
+# storage
 - name: Glance api
   lineinfile: create=yes
               dest={{ script_dir }}/kill_services.sh line="killall -9 glance-api"
-  when: deploy_type == "utility"
+  when: deploy_type == "storage"
 - name: Glance registry
   lineinfile: create=yes
               dest={{ script_dir }}/kill_services.sh line="killall -9 glance-registry"
-  when: deploy_type == "utility"
+  when: deploy_type == "storage"
 - name: Cinder api
   lineinfile: create=yes
               dest={{ script_dir }}/kill_services.sh line="killall -9 cinder-api"
-  when: deploy_type == "utility"
+  when: deploy_type == "storage"
 - name: Cinder volume
   lineinfile: create=yes
               dest={{ script_dir }}/kill_services.sh line="killall -9 cinder-volume"
-  when: deploy_type == "utility"
+  when: deploy_type == "storage"
 - name: Cinder scheduler
   lineinfile: create=yes
               dest={{ script_dir }}/kill_services.sh line="killall -9 cinder-scheduler"
-  when: deploy_type == "utility"
+  when: deploy_type == "storage"
 - name: Heat api
   lineinfile: create=yes
               dest={{ script_dir }}/kill_services.sh line="killall -9 heat-api"
-  when: deploy_type == "utility"
+  when: deploy_type == "storage"
 - name: Heat api-cfn
   lineinfile: create=yes
               dest={{ script_dir }}/kill_services.sh line="killall -9 heat-api-cfn"
-  when: deploy_type == "utility"
+  when: deploy_type == "storage"
 - name: Heat engine
   lineinfile: create=yes
               dest={{ script_dir }}/kill_services.sh line="killall -9 heat-engine"
-  when: deploy_type == "utility"
+  when: deploy_type == "storage"
 - name: Sahara all
   lineinfile: create=yes
               dest={{ script_dir }}/kill_services.sh line="killall -9 sahara-all"
-  when: deploy_type == "utility"
+  when: deploy_type == "storage"
 
 - name: Change permissions
   file: path={{ script_dir }}/kill_services.sh mode="u+x,g+x,o+x"
