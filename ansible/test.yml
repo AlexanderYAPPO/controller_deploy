@@ -3,8 +3,4 @@
 - hosts: test_host
 
   tasks:
-    - name: Configure rsync
-      lineinfile: dest=/etc/default/rsync
-                 regexp="^RSYNC_ENABLE"
-                 line="RSYN_ENABLE=true"
-      sudo: yes
+    - shell: 'echo "test\"sss{dddd}dd" > /tmp/test.txt'

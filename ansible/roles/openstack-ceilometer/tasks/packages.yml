@@ -1,0 +1,17 @@
+---
+
+- name: Add Swift PPA
+  apt_repository: repo="ppa:ubuntu-cloud-archive/{{ openstack_version }}-staging"
+                  state=present
+                  update_cache=yes
+  sudo: yes
+
+- name: Install Swift
+  apt: name="{{ item }}" state=present
+  with_items:
+    - ceilometer-agent-central
+    - ceilometer-agent-notification
+    - ceilometer-alarm-evaluator
+    - ceilometer-alarm-notifier
+    - python-ceilometerclient
+  sudo: yes

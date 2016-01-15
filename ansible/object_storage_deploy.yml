@@ -17,6 +17,15 @@
   roles:
 #    - role: common_dependencies
 
+    - role: Stouts.mongodb-develop
+      mongodb_conf_bind_ip: "{{ global_controller_ip }}"
+      mongodb_conf_smallfiles: yes
+      mongodb_package: mongodb-server
+      mongodb_additional_packages: [mongodb-clients, python-pymongo]
+      db_name: "{{ global_ceilometer_user }}"
+      db_user: "{{ global_ceilometer_user }}"
+      user_pass: "{{ global_ceilometer_password }}"
+
     - role: openstack-swift
       swift_dir: /home/{{ global_os_user }}/swift
       controller_ip: "{{ global_controller_ip }}"
@@ -27,3 +36,7 @@
       metadata_secret: "{{ global_metadata_secret }}"
       hash_suffix: "ChangeMe"
       hash_prefix: "eMegnahC"
+
+    - role: openstack-ceilometer
+      ceilometer_dir: /home/{{ global_os_user }}/ceilometer
+      controller_ip: "{{ global_controller_ip }}"
