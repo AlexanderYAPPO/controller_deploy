@@ -53,6 +53,7 @@
         - { name: "{{ global_neutron_user }}", password: "{{ global_neutron_password }}", tenant: service }
         - { name: "{{ global_glance_user }}", password: "{{ global_glance_password }}", tenant: service }
         - { name: "{{ global_cinder_user }}", password: "{{ global_cinder_password }}", tenant: service }
+        - { name: "{{ global_swift_user }}", password: "{{ global_swift_password }}", tenant: service }
       keystone_roles:
         - { name: admin, user: admin, tenant: admin }
         - { name: demo, user: demo, tenant: demo }
@@ -60,6 +61,7 @@
         - { name: admin, user: "{{ global_neutron_user }}", tenant: service }
         - { name: admin, user: "{{ global_glance_user }}", tenant: service }
         - { name: admin, user: "{{ global_cinder_user }}", tenant: service }
+        - { name: admin, user: "{{ global_swift_user }}", tenant: service }
       keystone_services:
         - { name: keystone, service_type: identity }
         - { name: nova, service_type: compute }
@@ -68,6 +70,7 @@
         - { name: cinder, service_type: volume }
         - { name: cinderv2, service_type: volumev2 }
         - { name: sahara, service_type: data-processing }
+        - { name: swift, service_type: object-store }
         #TODO swift and ceilometer
       keystone_endpoints:
         - service_name: keystone

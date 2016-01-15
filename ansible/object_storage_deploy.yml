@@ -3,16 +3,27 @@
 - hosts: test_host
 
   pre_tasks:
-    - apt: update_cache=yes
-      sudo: yes
-    - apt: name=git state=present
-      sudo: yes
-    - lineinfile: dest=/etc/sudoers regexp="^\s*Defaults\s+env_reset" state=absent
-      sudo: yes
-    - lineinfile: dest=/etc/sudoers
-                  regexp="^\s*Defaults\s+secure_path"
-                  line='Defaults env_keep = "PATH VIRTUAL_ENV"'
-      sudo: yes
+#    - apt: update_cache=yes
+#      sudo: yes
+#    - apt: name=git state=present
+#      sudo: yes
+#    - lineinfile: dest=/etc/sudoers regexp="^\s*Defaults\s+env_reset" state=absent
+#      sudo: yes
+#    - lineinfile: dest=/etc/sudoers
+#                  regexp="^\s*Defaults\s+secure_path"
+#                  line='Defaults env_keep = "PATH VIRTUAL_ENV"'
+#      sudo: yes
 
   roles:
-    - role: common_dependencies
+#    - role: common_dependencies
+
+    - role: openstack-swift
+      swift_dir: /home/{{ global_os_user }}/swift
+      controller_ip: "{{ global_controller_ip }}"
+      my_ip: "{{ global_my_ip }}"
+      swift_auth_username: "{{ global_swift_user }}"
+      swift_auth_password: "{{ global_swift_password }}"
+      openstack_version: "liberty"
+      metadata_secret: "{{ global_metadata_secret }}"
+      hash_suffix: "ChangeMe"
+      hash_prefix: "eMegnahC"

@@ -1,8 +1,22 @@
 ---
 
-- name: Install Swift dependencies
+- name: Add Swift PPA
+  apt_repository: repo="ppa:ubuntu-cloud-archive/{{ openstack_version }}-staging"
+                  state=present
+                  update_cache=yes
+  sudo: yes
+
+- name: Install Swift
   apt: name="{{ item }}" state=present
   with_items:
+    - swift
+    - swift-proxy
+    - python-swiftclient
+    - python-keystoneclient
+    - python-keystonemiddleware
+    - swift-account
+    - swift-container
+    - swift-object
     - memcached
     - xfsprogs
     - rsync

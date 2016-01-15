@@ -4,4 +4,4 @@ To deploy a controller node run controller_deploy.yml
 To deploy a compute node run compute_deploy.yml
 To deploy a node with glance run utils_deploy.yml
 
-To
+Swift deployment jsut installs Swift and configures it without creating any rings.

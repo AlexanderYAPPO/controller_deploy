@@ -3,11 +3,8 @@
 - hosts: test_host
 
   tasks:
-    - lineinfile: dest=/etc/sudoers
-                  regexp="^\s*Defaults\s+secure_path"
-                  line='Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/lib/udev"'
-      sudo: yes
-    - lineinfile: dest=/etc/environment
-                  regexp="^\s*PATH"
-                  line='PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/lib/udev"'
+    - name: Configure rsync
+      lineinfile: dest=/etc/default/rsync
+                 regexp="^RSYNC_ENABLE"
+                 line="RSYN_ENABLE=true"
       sudo: yes

@@ -1,13 +1,14 @@
 ---
 
 - name: Create dir for Swift
-  file: path={{ item }} state=directory mode=0755 owner={{ global_os_user }}
+  file: path={{ item }} state=directory mode=0755 owner={{ os_swift_user }}
   sudo: yes
   with_items:
     - /etc/swift
     - /var/log/swift
     - /var/lib/swift
     - /var/cache/swift
+    - /srv/node
 
 - name: Configure Swift
   template: src="{{ item }}.j2" dest=/etc/swift/{{ item }}
@@ -16,9 +17,33 @@
     - account-server.conf
     - container-server.conf
     - object-server.conf
+    - swift.conf
+  sudo: yes
 
-- name: Copy Swift configuration files
-  copy: src="{{ swift_dir }}/etc/{{ item }}-sample" dest=/etc/swift/{{ item }} owner={{ global_os_user }}
-  with_items:
-    - container-reconciler.conf
-    - object-expirer.conf
+- name: Configure rsyncd p.1
+  template: src="rsyncd.conf.append.j2" dest=/tmp/rsyncd.conf.tmp
+
+- name: Configure rsyncd p.2
+  shell: "cat /tmp/rsyncd.conf.tmp >> /etc/rsyncd.conf"
+  sudo: yes
+
+- name: Configure rsyncd p.3
+  file: path=/tmp/rsyncd.conf.tmp state=absent
+  sudo: yes
+
+- name: Configure rsync
+  lineinfile: dest=/etc/default/rsync
+                  regexp="^RSYNC_ENABLE"
+                  line="RSYN_ENABLE=true"
+  sudo: yes
+
+- name: Restart rsync
+  service: name=rsync state=restarted
+  sudo: yes
+
+#- name: Copy Swift configuration files
+#  copy: src="{{ swift_dir }}/etc/{{ item }}-sample" dest=/etc/swift/{{ item }} owner={{ global_os_user }}
+#  with_items:
+#    - container-reconciler.conf
+#    - object-expirer.conf
+#
