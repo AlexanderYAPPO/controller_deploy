@@ -40,6 +40,9 @@ global_neutron_password: tester
 
 global_os_user: ubuntu
 global_postgresql_password: tester
+
+global_public_name: cloud.ispras.ru
+
 global_region: RegionOne
 # UWSGI is preferred
 global_run_type: apache # eventlet or profile or uwsgi or apache
@@ -51,5 +54,10 @@ global_rabbitmq_password: tester
 global_db: postgresql # mysql or postgresql
 global_skip: False
 
+global_sahara_user: sahara
+global_sahara_password: tester
+
 global_swift_user: swift
 global_swift_password: tester
+# X.X.21.X
+global_swift_ip: 127.0.0.1

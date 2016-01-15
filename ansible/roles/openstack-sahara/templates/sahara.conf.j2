@@ -1,0 +1,53 @@
+[DEFAULT]
+
+api_workers = 16
+#infrastructure_engine=direct
+heat_enable_wait_condition=false
+use_identity_api_v3 = false
+
+rpc_backend = rabbit
+enable_notifications = true
+notification_driver = messaging
+
+use_neutron=True
+
+use_namespaces=True
+
+[database]
+
+connection = {{ sahara_database_url }}
+
+[keystone_authtoken]
+# Complete public Identity API endpoint (string value)
+auth_uri=https://{{ public_name }}:5000/v2.0/
+
+#auth_host = 10.10.21.31
+#auth_port = 5000
+#auth_protocol = http
+
+# Complete admin Identity API endpoint. This should specify
+# the unversioned root endpoint eg. https://localhost:35357/
+# (string value)
+identity_uri=http://{{ controller_ip }}:35357/
+
+# Keystone account username (string value)
+admin_user={{ sahara_auth_username }}
+
+# Keystone account password (string value)
+admin_password={{ sahara_auth_password }}
+
+# Keystone service account tenant name to validate user tokens
+# (string value)
+admin_tenant_name=service
+
+[keystone]
+auth_url = http://{{ controller_ip }}:5000/v2.0
+
+
+[oslo_messaging_rabbit]
+rabbit_host={{ sahara_rabbitmq_ip }}
+rabbit_port=5672
+rabbit_hosts=$rabbit_host:$rabbit_port
+rabbit_userid={{ sahara_rabbitmq_user }}
+rabbit_password={{ sahara_rabbitmq_password }}
+rabbit_virtual_host=/

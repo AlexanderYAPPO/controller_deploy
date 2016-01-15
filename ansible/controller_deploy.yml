@@ -67,36 +67,53 @@
         - { name: glance, service_type: image }
         - { name: cinder, service_type: volume }
         - { name: cinderv2, service_type: volumev2 }
+        - { name: sahara, service_type: data-processing }
+        #TODO swift and ceilometer
       keystone_endpoints:
         - service_name: keystone
           public_url: "http://{{ global_my_ip }}:5000/v2.0"
           internal_url: "http://{{ global_my_ip }}:5000/v2.0"
-          admin_url: "http://{{ global_my_ip }}:35357/v2.0"
+          admin_url: "https://{{ global_public_name }}:35357/v2.0"
           region: RegionOne
         - service_name: nova
           public_url: "http://{{ global_my_ip }}:8774/v2/%(tenant_id)s"
           internal_url: "http://{{ global_my_ip }}:8774/v2/%(tenant_id)s"
-          admin_url: "http://{{ global_my_ip }}:8774/v2/%(tenant_id)s"
+          admin_url: "http://{{ global_public_name }}:8774/v2/%(tenant_id)s"
           region: RegionOne
         - service_name: neutron
           public_url: "http://{{ global_my_ip }}:9696"
           internal_url: "http://{{ global_my_ip }}:9696"
-          admin_url: "http://{{ global_my_ip }}:9696"
+          admin_url: "http://{{ global_public_name }}:9696"
           region: RegionOne
         - service_name: glance
           public_url: "http://{{ global_glance_ip }}:9292"
           internal_url: "http://{{ global_glance_ip }}:9292"
-          admin_url: "http://{{ global_glance_ip }}:9292"
+          admin_url: "http://{{ global_public_name }}:9292"
           region: RegionOne
         - service_name: cinder
           public_url: "http://{{ global_glance_ip }}:8776/v2/%(tenant_id)s"
           internal_url: "http://{{ global_glance_ip }}:8776/v2/%(tenant_id)s"
-          admin_url: "http://{{ global_glance_ip }}:8776/v2/%(tenant_id)s"
+          admin_url: "http://{{ global_public_name }}:8776/v2/%(tenant_id)s"
           region: RegionOne
         - service_name: cinderv2
           public_url: "http://{{ global_glance_ip }}:8776/v2/%(tenant_id)s"
           internal_url: "http://{{ global_glance_ip }}:8776/v2/%(tenant_id)s"
-          admin_url: "http://{{ global_glance_ip }}:8776/v2/%(tenant_id)s"
+          admin_url: "http://{{ global_public_name }}:8776/v2/%(tenant_id)s"
+          region: RegionOne
+        - service_name: sahara
+          public_url: "http://{{ global_glance_ip }}:8386/v1.1/%(tenant_id)s"
+          internal_url: "http://{{ global_glance_ip }}:8386/v1.1/%(tenant_id)s"
+          admin_url: "http://{{ global_public_name }}:8386/v1.1/%(tenant_id)s"
+          region: RegionOne
+        - service_name: swift
+          public_url: "http://{{ global_swift_ip }}:8080/v1/AUTH_%(tenant_id)s"
+          internal_url: "http://{{ global_swift_ip }}:8080/v1/AUTH_%(tenant_id)s"
+          admin_url: "http://{{ global_public_name }}:8080/v1"
+          region: RegionOne
+        - service_name: ceilometer
+          public_url: "http://{{ global_swift_ip }}:8777"
+          internal_url: "http://{{ global_swift_ip }}:8777"
+          admin_url: "http://{{ global_public_name }}:8777"
           region: RegionOne
 
     - role: openstack-nova

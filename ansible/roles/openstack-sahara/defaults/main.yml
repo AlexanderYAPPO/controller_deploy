@@ -1,0 +1,21 @@
+---
+
+controller_ip: 127.0.0.1
+my_ip: 127.0.0.1
+
+sahara_log_dir: /var/log/sahara
+sahara_default_region: RegionOne
+sahara_dir: /tmp/sahara
+sahara_rabbitmq_ip: 127.0.0.1
+sahara_rabbitmq_user: openstack
+sahara_rabbitmq_password: tester
+
+sahara_auth_username: sahara
+sahara_auth_password: tester
+
+# Database
+sahara_database_url: sqlite:////var/lib/sahara/sahara.db
+
+openstack_version: master
+
+public_name: localhost

@@ -1,0 +1,13 @@
+- name: Clone Sahara
+  git: repo=https://github.com/openstack/sahara.git dest={{ sahara_dir }} clone=yes version={{ openstack_version }}
+
+- name: create virtual env
+  command: "virtualenv {{ sahara_dir }}/venv"
+
+- name: install requirements
+  pip: requirements={{ sahara_dir }}/requirements.txt virtualenv={{ sahara_dir }}/venv extra_args='--no-cache-dir'
+
+- name: setup.py install
+  shell: ". ./venv/bin/activate && python setup.py install"
+  args:
+    chdir: "{{ sahara_dir }}"

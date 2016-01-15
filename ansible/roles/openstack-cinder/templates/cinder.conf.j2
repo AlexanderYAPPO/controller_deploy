@@ -12,7 +12,7 @@ enabled_backends = fast-1,medium-1,slow-1
 
 [oslo_messaging_rabbit]
 
-rabbit_host = {{ controller_ip }}
+rabbit_host = {{ cinder_rabbitmq_ip }}
 rabbit_userid = {{ cinder_rabbitmq_user }}
 rabbit_password = {{ cinder_rabbitmq_password }}
 

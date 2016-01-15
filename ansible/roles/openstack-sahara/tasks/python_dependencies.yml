@@ -1,0 +1,6 @@
+---
+
+- name: install pip packages
+  pip: name={{ item }} virtualenv={{ sahara_dir }}/venv
+  with_items:
+    - psycopg2

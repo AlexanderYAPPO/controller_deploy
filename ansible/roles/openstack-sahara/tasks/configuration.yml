@@ -1,0 +1,15 @@
+---
+
+- name: Create dir for Sahara
+  file: path={{ item }} state=directory mode=0755 owner={{ global_os_user }}
+  sudo: yes
+  with_items:
+    - "{{ sahara_dir }}/venv/etc"
+
+- name: Configure Sahara
+  template: src="{{ item }}.j2" dest="{{ sahara_dir }}/venv/etc/{{ item }}"
+  with_items:
+    - sahara.conf
+
+- name: Sync Sahara database
+  shell: '{{ sahara_dir }}/venv/bin/sahara-db-manage --config-file {{ sahara_dir }}/venv/etc/sahara.conf upgrade head'

@@ -1,0 +1,18 @@
+---
+
+- hosts: test_host
+
+  pre_tasks:
+    - apt: update_cache=yes
+      sudo: yes
+    - apt: name=git state=present
+      sudo: yes
+    - lineinfile: dest=/etc/sudoers regexp="^\s*Defaults\s+env_reset" state=absent
+      sudo: yes
+    - lineinfile: dest=/etc/sudoers
+                  regexp="^\s*Defaults\s+secure_path"
+                  line='Defaults env_keep = "PATH VIRTUAL_ENV"'
+      sudo: yes
+
+  roles:
+    - role: common_dependencies

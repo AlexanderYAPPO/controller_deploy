@@ -19,13 +19,15 @@
 
     - role: postgresql
       postgresql_admin_user: "postgres"
-      postgresql_databases: [glance, cinder]
+      postgresql_databases: [glance, cinder, sahara]
       postgresql_users:
         - { name: glance, pass: "{{ global_glance_password }}" }
         - { name: cinder, pass: "{{ global_cinder_password }}" }
+        - { name: sahara, pass: "{{ global_sahara_password }}" }
       postgresql_user_privileges:
         - { role: glance, db: glance }
         - { role: cinder, db: cinder }
+        - { role: sahara, db: sahara }
 
     - role: openstack-glance
       glance_dir: /home/{{ global_os_user }}/glance
@@ -48,15 +50,11 @@
       cinder_glance_ip: "{{ global_glance_ip }}"
       openstack_version: "stable/liberty"
 
-#    - role: openstack-swift
-#      swift_dir: /home/{{ global_os_user }}/swift
-#      controller_ip: "{{ global_controller_ip }}"
-#      swift_auth_username: "swift"
-#      swift_auth_password: "tester"
-#      my_ip: "{{ global_my_ip }}"
-#
-#    - role: client
-#      controller_ip: "http://{{ global_controller_ip }}:35357/v2.0"
-#      username: "admin"
-#      password: "tester"
-#      client_dir: "/home/{{ global_os_user }}"
+    - role: openstack-sahara
+      sahara_dir: /home/{{ global_os_user }}/sahara
+      sahara_database_url: "{{ global_db }}://sahara:{{ global_sahara_password }}@localhost/sahara"
+      controller_ip: "{{ global_controller_ip }}"
+      sahara_auth_username: "{{ global_sahara_user }}"
+      sahara_auth_password: "{{ global_sahara_password }}"
+      openstack_version: "stable/liberty"
+      public_name: "{{ global_public_name }}"
