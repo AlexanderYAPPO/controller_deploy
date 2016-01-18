@@ -1,0 +1,24 @@
+---
+
+- name: Create dir for Ceilometer
+  file: path={{ item }} state=directory mode=0755 owner={{ global_os_user }}
+  sudo: yes
+  with_items:
+    - /etc/ceilometer
+    - /var/log/ceilometer
+    - /var/lib/ceilometer
+    - /var/cache/ceilometer
+    - /srv/node
+
+- name: Configure Ceilometer
+  template: src="{{ item }}.j2" dest=/etc/ceilometer/{{ item }}
+  with_items:
+    - ceilometer.conf
+  sudo: yes
+
+#- name: Copy Swift configuration files
+#  copy: src="{{ ceilometer_dir }}/etc/{{ item }}-sample" dest=/etc/ceilometer/{{ item }} owner={{ global_os_user }}
+#  with_items:
+#    - container-reconciler.conf
+#    - object-expirer.conf
+#

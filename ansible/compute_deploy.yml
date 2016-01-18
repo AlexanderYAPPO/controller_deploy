@@ -55,3 +55,15 @@
       neutron_type: "{{ global_deploy_type }}"
       openstack_version: "stable/liberty"
       metadata_secret: "{{ global_metadata_secret }}"
+
+    - role: openstack-ceilometer
+      ceilometer_dir: /home/{{ global_os_user }}/ceilometer
+      controller_ip: "{{ global_controller_ip }}"
+      ceilometer_type: compute
+      ceilometer_database_url: "{{ global_db }}://mongodb:{{ global_ceilometer_password }}@localhost/ceilometer"
+      ceilometer_auth_username: "{{ global_ceilometer_user }}"
+      ceilometer_auth_password: "{{ global_ceilometer_password }}"
+      ceilometer_rabbitmq_ip: "{{ global_controller_ip }}"
+      ceilometer_rabbitmq_user: "{{ global_rabbitmq_user }}"
+      ceilometer_rabbitmq_password: "{{ global_rabbitmq_password }}"
+      openstack_version: liberty

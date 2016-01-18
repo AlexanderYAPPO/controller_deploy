@@ -1,21 +1,21 @@
 ---
 
-- hosts: test_host
+- hosts: all
 
   pre_tasks:
-#    - apt: update_cache=yes
-#      sudo: yes
-#    - apt: name=git state=present
-#      sudo: yes
-#    - lineinfile: dest=/etc/sudoers regexp="^\s*Defaults\s+env_reset" state=absent
-#      sudo: yes
-#    - lineinfile: dest=/etc/sudoers
-#                  regexp="^\s*Defaults\s+secure_path"
-#                  line='Defaults env_keep = "PATH VIRTUAL_ENV"'
-#      sudo: yes
+    - apt: update_cache=yes
+      sudo: yes
+    - apt: name=git state=present
+      sudo: yes
+    - lineinfile: dest=/etc/sudoers regexp="^\s*Defaults\s+env_reset" state=absent
+      sudo: yes
+    - lineinfile: dest=/etc/sudoers
+                  regexp="^\s*Defaults\s+secure_path"
+                  line='Defaults env_keep = "PATH VIRTUAL_ENV"'
+      sudo: yes
 
   roles:
-#    - role: common_dependencies
+    - role: common_dependencies
 
     - role: Stouts.mongodb-develop
       mongodb_conf_bind_ip: "{{ global_controller_ip }}"
@@ -25,6 +25,7 @@
       db_name: "{{ global_ceilometer_user }}"
       db_user: "{{ global_ceilometer_user }}"
       user_pass: "{{ global_ceilometer_password }}"
+      sudo: yes
 
     - role: openstack-swift
       swift_dir: /home/{{ global_os_user }}/swift
@@ -40,3 +41,11 @@
     - role: openstack-ceilometer
       ceilometer_dir: /home/{{ global_os_user }}/ceilometer
       controller_ip: "{{ global_controller_ip }}"
+      ceilometer_type: controller
+      ceilometer_database_url: "{{ global_db }}://mongodb:{{ global_ceilometer_password }}@localhost/ceilometer"
+      ceilometer_auth_username: "{{ global_ceilometer_user }}"
+      ceilometer_auth_password: "{{ global_ceilometer_password }}"
+      ceilometer_rabbitmq_ip: "{{ global_controller_ip }}"
+      ceilometer_rabbitmq_user: "{{ global_rabbitmq_user }}"
+      ceilometer_rabbitmq_password: "{{ global_rabbitmq_password }}"
+      openstack_version: liberty

@@ -1,2 +1,2 @@
 - name: Create user and database
-  shell: "mongo --host controller --eval ' db = db.getSiblingDB(\"{{ db_name }}\"); db.addUser({user: \"{{ db_user }}\", pwd: \"{{ user_pass }}\", roles: [ \"readWrite\", \"dbAdmin\" ]})'"
+  shell: "mongo --host localhost --eval ' db = db.getSiblingDB(\"{{ db_name }}\"); db.addUser({user: \"{{ db_user }}\", pwd: \"{{ user_pass }}\", roles: [ \"readWrite\", \"dbAdmin\" ]})'"

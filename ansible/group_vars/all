@@ -1,5 +1,9 @@
 ---
 
+global_ceilometer_password: tester
+global_ceilometer_user: ceilometer
+global_ceilometer_ip: 127.0.0.1
+
 global_cinder_user: cinder
 global_cinder_password: tester
 

@@ -1,0 +1,25 @@
+---
+
+controller_ip: 127.0.0.1
+my_ip: 127.0.0.1
+
+ceilometer_log_dir: /var/log/ceilometer
+ceilometer_default_region: RegionOne
+ceilometer_dir: /tmp/ceilometer
+ceilometer_rabbitmq_ip: 127.0.0.1
+ceilometer_rabbitmq_user: openstack
+ceilometer_rabbitmq_password: tester
+
+ceilometer_auth_username: ceilometer
+ceilometer_auth_password: tester
+
+# Database
+ceilometer_database_url: sqlite:////var/lib/ceilometer/ceilometer.db
+
+ceilometer_type: controller #controller or compute
+
+os_ceilometer_user: tester
+
+openstack_version: master
+
+public_name: localhost
