@@ -5,6 +5,7 @@ import jinja2
 import os
 from subprocess import check_output
 import argparse
+import time
 
 DISKS = ["fast"]
 
@@ -22,6 +23,10 @@ def log_error(msg):
     msg = "Error:   " + msg
     log(msg)
 
+
+def sleep(sec):
+    log_info("Sleeping for %s sec" % sec)
+    time.sleep(sec)
 
 # Render source file to destination file with variables substitution. The template must be in the folder with script.
 class Jinja2Renderer:
@@ -203,9 +208,11 @@ def run_tests(disks, dd_bss, fio_bss, sizes, csv_filename, open_csvf_flag, fio_t
                 for dd_bs in dd_bss:
                     dr = DDRunner(disk, dd_bs, size)
                     cvw.add_line(dr.get_csv_vars_dict())
+                    sleep(30)
                 for fio_bs in fio_bss:
                     fr = FioRunner(disk, fio_bs, size, fio_template_name)
                     cvw.add_line(fr.get_csv_vars_dict())
+                    sleep(30)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Measure scsi disks perfomance with dd and fio. Usage example:\n'
