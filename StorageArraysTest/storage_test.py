@@ -6,9 +6,7 @@ import os
 from subprocess import check_output
 import argparse
 import time
-
-DISKS = ["fast"]
-
+import json
 
 def log(msg):
     print time.strftime("%d.%m.%Y %H:%M ") + msg
@@ -49,6 +47,18 @@ class Jinja2Renderer:
             raise exc_value
         subprocess.check_call(["rm", self.__destination__])
 
+class DestinationDisk:
+    # mock enables writing to tmp file for local testing
+    def __init__(self, disk_name, mock=False):
+        self.disk_name = disk_name
+        self.mock = mock
+
+    def get_full_disk_path(self):
+        if self.mock:
+            return "/tmp/test"
+        else:
+            return "/dev/disk/by-id/scsi-%s" % self.disk_name
+
 
 class TestRunner(object):
     # bs in K, size in G (2^30B); disk name should be like "md3820i_raid_10_disks_5"
@@ -57,6 +67,7 @@ class TestRunner(object):
 
         self.__start_tm__ = ""
         self.__disk_name__ = disk_name
+        self.__disk_path__ = DestinationDisk(self.__disk_name__).get_full_disk_path()
         self.__bs__ = bs
         self.__size__ = size
         self.__storage_name__ = ""
@@ -64,6 +75,8 @@ class TestRunner(object):
         self.__disks_number__ = ""
         self.__parse_disk_name__()
         self.__ttype__ = ""
+        self.__logfile__ = ""
+        self.__duration__ = 0
 
     def __parse_disk_name__(self):
         parsed_disk_name_match = re.match(r'(.*?)_raid_([\d]+)_disks_([\d]+)', self.__disk_name__)
@@ -80,6 +93,8 @@ class TestRunner(object):
                 'disks': self.__disks_number__,
                 'bs': "%sK" % self.__bs__,
                 'size': "%sG" % self.__size__,
+                'duration(sec)' : self.__duration__,
+                'logfile' : self.__logfile__,
                 'ttype': self.__ttype__}
 
 
@@ -95,10 +110,8 @@ class DDRunner(TestRunner):
 
     def __run__(self):
         source = "/dev/zero"
-        dest = "/dev/disk/by-id/scsi-%s" % self.__disk_name__
-        # dest = "/dev/null"
         bs = "%sKB" % self.__bs__
-        run_arr = ["sudo", "dd", "if=%s" % source, "of=%s" % dest, "bs=%s" % bs, "count=%s" % self.__count__]
+        run_arr = ["sudo", "dd", "if=%s" % source, "of=%s" % self.__disk_path__, "bs=%s" % bs, "count=%s" % self.__count__]
         log_info("Running dd with args: %s" % ' '.join(run_arr))
         self.__start_tm__ = time.strftime("%d.%m.%Y %H:%M")
         self.res_string = check_output(run_arr, stderr=subprocess.STDOUT)
@@ -122,49 +135,109 @@ class DDRunner(TestRunner):
 
 # Run fio test.
 class FioRunner(TestRunner):
-    def __init__(self, disk_name, bs, size, template_name):
+    def __init__(self, disk_name, bs, size, iodepth, read_percent, access, template_name, res_dir):
         TestRunner.__init__(self, disk_name, bs, size)
-        self.read_throughput = ""
-        self.write_throughput = ""
-        # self.read_iops = ""
-        # self.write_iops = ""
+        self.read_bw = 0
+        self.read_iops = 0
+        self.read_clat_min = 0
+        self.read_clat_max = 0
+        self.read_clat_avg = 0
+        self.write_bw = 0
+        self.write_iops = 0
+        self.write_clat_min = 0
+        self.write_clat_max = 0
+        self.write_clat_avg = 0
+
+
+        self.__iodepth__ = iodepth
+        self.__read_percent__ = read_percent
+        self.__read_percent_j2__ = ""
+        self.__access__ = access
+        self.__access_j2__ = ""
+        self.__rw_j2__ = ""
+        self.__j2_dict__ = {}
+        self.__start_tm__ = time.strftime("%d.%m.%Y_%H_%M")
 
         self.__template_name__ = template_name
-        self.__fio_conf_name__ = "fio_%s_%sK_%sG" % (self.__disk_name__, self.__bs__, self.__size__)
-        self.__ttype__ = "fio"
+        self.__test_id_string__ = "%s_%s_%sK_%sG_%siod_%sread_%s" % (self.__start_tm__, self.__disk_name__, self.__bs__,
+                                                                     self.__size__, self.__iodepth__,
+                                                                     self.__read_percent__, self.__access__)
+        self.__fio_conf_name__ = "fio_%s" % self.__test_id_string__
+        if not os.path.exists(res_dir):
+            os.makedirs(res_dir)
+        self.__logfile__ = os.path.join(res_dir, "%s.json" % self.__test_id_string__)
+
         self.__run__()
 
-    def __run__(self):
-        variables = {
-            'disk_name': self.__disk_name__,
+    def prepare_jinja2_vars(self):
+        if self.__access__ == "seq":
+            self.__access_j2__ = ""
+        elif self.__access__ == "rand":
+            self.__access_j2__ = "rand"
+        else:
+            log_error("Wrong access type: %s" % self.__access__)
+            exit(1)
+
+        if self.__read_percent__ == 0:
+            self.__rw_j2__ = "write"
+        elif self.__read_percent__ == 100:
+            self.__rw_j2__ = "read"
+        elif (self.__read_percent__ > 0) and (self.__read_percent__ < 100):
+            self.__rw_j2__ = "rw"
+            self.__read_percent_j2__ = "rwmixread=%s" % self.__read_percent__
+        else:
+            log_error("Wrong read_percent: %s" % self.__read_percent__)
+            exit(1)
+
+        self.__j2_dict__ = {
+            'test_name' : "%s_%s" % (self.__rw_j2__, self.__access__),
+            'disk_path': self.__disk_path__,
             'bs': "%sK" % self.__bs__,
-            'size': "%sG" % self.__size__
+            'size': "%sG" % self.__size__,
+            'rw' : self.__rw_j2__,
+            'rwmixread' : self.__read_percent_j2__,
+            'iodepth' : self.__iodepth__
         }
-        with Jinja2Renderer(self.__template_name__, self.__fio_conf_name__, variables):
-            run_arr = ["sudo", "fio", self.__fio_conf_name__]
+
+    def __run__(self):
+        self.prepare_jinja2_vars()
+        with Jinja2Renderer(self.__template_name__, self.__fio_conf_name__, self.__j2_dict__):
+            run_arr = ["sudo", "fio", self.__fio_conf_name__, "--output-format=json",
+                       "--output=%s" % self.__logfile__]
             log_info("Running fio with args: %s" % ' '.join(run_arr))
-            self.__start_tm__ = time.strftime("%d.%m.%Y %H:%M")
+            now = time.time()
             self.res_string = check_output(run_arr, stderr=subprocess.STDOUT)
+            self.__duration__ = int(time.time() - now)
         self.__parse_output__()
 
     def __parse_output__(self):
-        splitted_output = str.splitlines(self.res_string)
-        write_stats = splitted_output[-1]
-        read_stats = splitted_output[-2]
-        read_throughput_match = re.search(r'aggrb=(.*?), ', read_stats)
-        write_throughput_match = re.search(r'aggrb=(.*?), ', write_stats)
-        try:
-            self.read_throughput = read_throughput_match.group(1)
-            self.write_throughput = write_throughput_match.group(1)
-        except (IndexError, AttributeError):
-            log_error("fio broken output (or broken regex matching), exiting")
-            log_error(self.res_string)
-            exit(1)
+        with open(self.__logfile__, 'r') as jf:
+            json_data = json.load(jf)["jobs"][0]
+            self.read_bw = json_data["read"]["bw"]
+            self.read_iops = json_data["read"]["iops"]
+            self.read_clat_min = json_data["read"]["clat"]["min"]
+            self.read_clat_max = json_data["read"]["clat"]["max"]
+            self.write_bw = json_data["write"]["bw"]
+            self.write_iops = json_data["write"]["iops"]
+            self.write_clat_min = json_data["write"]["clat"]["min"]
+            self.write_clat_max = json_data["write"]["clat"]["max"]
 
     def get_csv_vars_dict(self):
         res = super(FioRunner, self).get_csv_vars_dict()
-        res.update({'fio_write': self.write_throughput,
-                    'fio_read': self.read_throughput})
+        res.update({'iodepth': self.__iodepth__,
+                    'rw': self.__rw_j2__,
+                    'access': self.__access__,
+                    'read_bw' : self.read_bw,
+                    'read_iops' : self.read_iops,
+                    'read_clat_min' : self.read_clat_min,
+                    'read_clat_max' : self.read_clat_max,
+                    'read_clat_avg' : self.read_clat_avg,
+                    'write_bw' : self.write_bw,
+                    'write_iops' : self.write_iops,
+                    'write_clat_min' : self.write_clat_min,
+                    'write_clat_max' : self.write_clat_max,
+                    'write_clat_avg' : self.write_clat_avg,
+                     })
         return res
 
 
@@ -178,8 +251,11 @@ class CSVWriter(object):
         self.filename = filename
         self.__open_csvf_flag__ = open_csvf_flag
         self.__f__ = None
-        self.__columns__ = ["start_tm", "disk_name", "storage", "raid", "disks", "bs", "size", "ttype", "dd_speed",
-                            "fio_write", "fio_read"]
+        self.__columns__ = ["start_tm", "duration(sec)", "disk_name", "storage", "raid", "disks", "bs", "size",
+                            "iodepth", "rw", "access", "read_bw", "read_iops", "read_clat_min", "read_clat_max",
+                            "read_clat_avg", "write_bw", "write_iops", "write_clat_min", "write_clat_max",
+                            "write_clat_avg" "logfile"]
+
         self.__csv_empty_dict = dict((c, "") for c in self.__columns__)
         self.__csv_fmt__ =  ""
         for c in self.__columns__[:-1]:
@@ -200,52 +276,64 @@ class CSVWriter(object):
         full_values.update(values)
         self.__f__.write(self.__csv_fmt__ % full_values)
 
+# called between tests
+def clean_cache():
+    sleep(1)
 
-def run_tests(disks, dd_bss, fio_bss, sizes, csv_filename, open_csvf_flag, fio_template_name):
+
+def run_tests(disks, bss, sizes, iodepths, read_percents, accesses, csv_filename, open_csvf_flag, fio_template_name):
     with CSVWriter(csv_filename, open_csvf_flag) as cvw:
         for disk in disks:
             for size in sizes:
-                for dd_bs in dd_bss:
-                    dr = DDRunner(disk, dd_bs, size)
-                    cvw.add_line(dr.get_csv_vars_dict())
-                    sleep(30)
-                for fio_bs in fio_bss:
-                    fr = FioRunner(disk, fio_bs, size, fio_template_name)
-                    cvw.add_line(fr.get_csv_vars_dict())
-                    sleep(30)
+                for iodepth in iodepths:
+                    for bs in bss:
+                        for read_percent in read_percents:
+                            for access in accesses:
+                                fr = FioRunner(disk, bs, size, iodepth, read_percent, access, fio_template_name,
+                                               "storage_tests_logs")
+                                cvw.add_line(fr.get_csv_vars_dict())
+                                clean_cache()
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Measure scsi disks perfomance with dd and fio. Usage example:\n'
+    parser = argparse.ArgumentParser(description='Measure scsi disks performance with fio. Usage example:\n'
                                                  'python storage_test.py --disks md3820i_raid_1_disks_2'
-                                                 ' md3860i_raid_0_disks10 --dd_bss 4 4096 16384'
-                                                 ' --fio_bss 1 4 128 1024 4096 --sizes 1 20 40 \n'
-                                                 'Note that dd will not warn you if the disk doesn\'t exists!\n'
-                                                 'Another important moment is that bss are passed in Kibibytes and'
+                                                 ' md3860i_raid_0_disks_10 --bss 1 4 128 1024 4096 --sizes 1 20 40'
+                                                 ' --read_percents 0 25 50 75 100 --access rand seq \n'
+                                                 'Note that that bss are passed in Kibibytes and'
                                                  ' sizes are passed in Gibibytes (i.e base 2).',
                                      formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-d', '--disks', nargs='+',
                         help='<Required> disks to test. Disk names should be like md3820i_raid_10_disks_5 -- this way'
                              ' they will be correctly parsed.',
                         required=True)
+    parser.add_argument('-fbs', '--bss', nargs='+',
+                        help='<Required> int, fio block sizes in K (KIBIBYTES!)(base 2)',
+                        type=int, required=True)
     parser.add_argument('-ss', '--sizes', nargs='+',
                         help='<Required> int, amount of data to pass in G (GIBIBYTES!) (base 2)',
                         required=True, type=int)
-    parser.add_argument('-dbs', '--dd_bss', nargs='*',
-                        help='<Optional> int, dd block sizes in K (KIBIBYTES!) (base 2)',
-                        default=[], type=int)
-    parser.add_argument('-fbs', '--fio_bss', nargs='*',
-                        help='<Optional> int, fio block sizes in K (KIBIBYTES!)(base 2)',
-                        default=[], type=int)
+    parser.add_argument('-iod', '--iodepths', nargs='+',
+                    help='<Required> int, fio iodepth',
+                    required=True, type=int)
+    parser.add_argument('-rp', '--read_percents', nargs='+',
+                    help='<Required> int, read_percentage of test. 0 means write only test, 100 read only',
+                    type=int, required=True)
+    parser.add_argument('-acc', '--access', nargs='+',
+                        help='<Required> Sequential, random or both. Accepted values: [seq], [rand], [seq rand]',
+                        required=True)
     parser.add_argument('-csvf', '--csv_filename',
                         help='<Optional> csv with results filename, default storage_tests_res.csv',
                         default="storage_tests_res.csv")
     parser.add_argument('-ocsvf', '--open_csvf_flag',
                         help='<Optional> csv with results open flag, default is "w"', default="w")
     parser.add_argument('-fio_templ', '--fio_template_name',
-                        help='<Optional> fio jinja2 template name, default is "danger-jinja2-template.j2". Must be'
-                             ' located in the folder with the script. Passed args to it are bss, size and scsi'
-                             ' device name',
-                        default="danger-jinja2-template.j2")
+                        help='<Optional> fio jinja2 template name, default is "fio.j2". Must be'
+                             ' located in the folder with the script. Passed args to it are bss, size,'
+                             ' scsi device name, rw type and optionally rwmixread',
+                        default="fio.j2")
+    # parser.add_argument('-dbs', '--dd_bss', nargs='*',
+    #                     help='<Optional> int, dd block sizes in K (KIBIBYTES!) (base 2)',
+    #                     default=[], type=int)
     args = parser.parse_args()
-    run_tests(args.disks, args.dd_bss, args.fio_bss, args.sizes, args.csv_filename, args.open_csvf_flag,
-              args.fio_template_name)
+    run_tests(args.disks, args.bss, args.sizes, args.iodepths, args.read_percents, args.access, args.csv_filename,
+              args.open_csvf_flag, args.fio_template_name)
