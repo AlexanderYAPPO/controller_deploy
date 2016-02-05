@@ -52,6 +52,7 @@ class DestinationDisk:
     def __init__(self, disk_name, mock=False):
         self.disk_name = disk_name
         self.mock = mock
+        # self.mock = True
 
     def get_full_disk_path(self):
         if self.mock:
@@ -217,10 +218,13 @@ class FioRunner(TestRunner):
             self.read_iops = json_data["read"]["iops"]
             self.read_clat_min = json_data["read"]["clat"]["min"]
             self.read_clat_max = json_data["read"]["clat"]["max"]
+            self.read_clat_avg = json_data["read"]["clat"]["percentile"]["50.000000"]
             self.write_bw = json_data["write"]["bw"]
             self.write_iops = json_data["write"]["iops"]
             self.write_clat_min = json_data["write"]["clat"]["min"]
             self.write_clat_max = json_data["write"]["clat"]["max"]
+            self.write_clat_avg = json_data["write"]["clat"]["percentile"]["50.000000"]
+
 
     def get_csv_vars_dict(self):
         res = super(FioRunner, self).get_csv_vars_dict()
@@ -254,12 +258,12 @@ class CSVWriter(object):
         self.__columns__ = ["start_tm", "duration(sec)", "disk_name", "storage", "raid", "disks", "bs", "size",
                             "iodepth", "rw", "access", "read_bw", "read_iops", "read_clat_min", "read_clat_max",
                             "read_clat_avg", "write_bw", "write_iops", "write_clat_min", "write_clat_max",
-                            "write_clat_avg" "logfile"]
+                            "write_clat_avg", "logfile"]
 
         self.__csv_empty_dict = dict((c, "") for c in self.__columns__)
         self.__csv_fmt__ =  ""
         for c in self.__columns__[:-1]:
-            self.__csv_fmt__ += "%(" + c + ")s,"
+            self.__csv_fmt__ += "%(" + c + ")s\t"
         self.__csv_fmt__ += "%(" + self.__columns__[-1] + ")s\n"
 
     def __enter__(self):
