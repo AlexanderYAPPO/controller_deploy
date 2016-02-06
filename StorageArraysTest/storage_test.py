@@ -11,15 +11,18 @@ import json
 def log(msg):
     print time.strftime("%d.%m.%Y %H:%M ") + msg
 
-
 def log_info(msg):
     msg = "INFO:   " + msg
     log(msg)
 
+def log_warn(msg):
+    msg = "WARN:   " + msg
+    log(msg)
 
 def log_error(msg):
     msg = "Error:   " + msg
     log(msg)
+    exit(1)
 
 
 def sleep(sec):
@@ -77,7 +80,7 @@ class TestRunner(object):
         self.__parse_disk_name__()
         self.__ttype__ = ""
         self.__logfile__ = ""
-        self.__duration__ = 0
+        self.duration = 0
 
     def __parse_disk_name__(self):
         parsed_disk_name_match = re.match(r'(.*?)_raid_([\d]+)_disks_([\d]+)', self.__disk_name__)
@@ -94,7 +97,7 @@ class TestRunner(object):
                 'disks': self.__disks_number__,
                 'bs': "%sK" % self.__bs__,
                 'size': "%sG" % self.__size__,
-                'duration(sec)' : self.__duration__,
+                'duration(sec)' : self.duration,
                 'logfile' : self.__logfile__,
                 'ttype': self.__ttype__}
 
@@ -124,9 +127,7 @@ class DDRunner(TestRunner):
         try:
             self.speed = speed_match.group(1)
         except (IndexError, AttributeError):
-            log_error("dd broken output (or broken regex matching), exiting")
-            log_error(line_with_speed)
-            exit(1)
+            log_error("dd broken output (or broken regex matching), exiting \n %s") % line_with_speed
 
     def get_csv_vars_dict(self):
         res = super(DDRunner, self).get_csv_vars_dict()
@@ -136,7 +137,7 @@ class DDRunner(TestRunner):
 
 # Run fio test.
 class FioRunner(TestRunner):
-    def __init__(self, disk_name, bs, size, iodepth, read_percent, access, template_name, res_dir):
+    def __init__(self, disk_name, bs, size, iodepth, read_percent, access, res_dir, start_tm=time.strftime("%d.%m.%Y_%H_%M")):
         TestRunner.__init__(self, disk_name, bs, size)
         self.read_bw = 0
         self.read_iops = 0
@@ -157,9 +158,9 @@ class FioRunner(TestRunner):
         self.__access_j2__ = ""
         self.__rw_j2__ = ""
         self.__j2_dict__ = {}
-        self.__start_tm__ = time.strftime("%d.%m.%Y_%H_%M")
+        self.__start_tm__ = start_tm
 
-        self.__template_name__ = template_name
+        self.__template_name__ = ""
         self.__test_id_string__ = "%s_%s_%sK_%sG_%siod_%sread_%s" % (self.__start_tm__, self.__disk_name__, self.__bs__,
                                                                      self.__size__, self.__iodepth__,
                                                                      self.__read_percent__, self.__access__)
@@ -167,8 +168,8 @@ class FioRunner(TestRunner):
         if not os.path.exists(res_dir):
             os.makedirs(res_dir)
         self.__logfile__ = os.path.join(res_dir, "%s.json" % self.__test_id_string__)
+        self.prepare_jinja2_vars()
 
-        self.__run__()
 
     def prepare_jinja2_vars(self):
         if self.__access__ == "seq":
@@ -177,7 +178,6 @@ class FioRunner(TestRunner):
             self.__access_j2__ = "rand"
         else:
             log_error("Wrong access type: %s" % self.__access__)
-            exit(1)
 
         if self.__read_percent__ == 0:
             self.__rw_j2__ = "write"
@@ -188,7 +188,6 @@ class FioRunner(TestRunner):
             self.__read_percent_j2__ = "rwmixread=%s" % self.__read_percent__
         else:
             log_error("Wrong read_percent: %s" % self.__read_percent__)
-            exit(1)
 
         self.__j2_dict__ = {
             'test_name' : "%s_%s" % (self.__rw_j2__, self.__access__),
@@ -200,31 +199,36 @@ class FioRunner(TestRunner):
             'iodepth' : self.__iodepth__
         }
 
-    def __run__(self):
-        self.prepare_jinja2_vars()
+    def run(self, template_name):
+        self.__template_name__ = template_name
         with Jinja2Renderer(self.__template_name__, self.__fio_conf_name__, self.__j2_dict__):
             run_arr = ["sudo", "fio", self.__fio_conf_name__, "--output-format=json",
                        "--output=%s" % self.__logfile__]
             log_info("Running fio with args: %s" % ' '.join(run_arr))
-            now = time.time()
             self.res_string = check_output(run_arr, stderr=subprocess.STDOUT)
-            self.__duration__ = int(time.time() - now)
             subprocess.check_call(["sudo", "chmod", "6", self.__logfile__])
-        self.__parse_output__()
+        self.parse_output()
 
-    def __parse_output__(self):
+    def parse_output(self):
         with open(self.__logfile__, 'r') as jf:
-            json_data = json.load(jf)["jobs"][0]
-            self.read_bw = json_data["read"]["bw"]
-            self.read_iops = json_data["read"]["iops"]
-            self.read_clat_min = json_data["read"]["clat"]["min"]
-            self.read_clat_max = json_data["read"]["clat"]["max"]
-            self.read_clat_avg = json_data["read"]["clat"]["percentile"]["50.000000"]
-            self.write_bw = json_data["write"]["bw"]
-            self.write_iops = json_data["write"]["iops"]
-            self.write_clat_min = json_data["write"]["clat"]["min"]
-            self.write_clat_max = json_data["write"]["clat"]["max"]
-            self.write_clat_avg = json_data["write"]["clat"]["percentile"]["50.000000"]
+            try:
+                json_data = json.load(jf)["jobs"][0]
+                self.read_bw = json_data["read"]["bw"]
+                self.read_iops = json_data["read"]["iops"]
+                self.read_clat_min = json_data["read"]["clat"]["min"]
+                self.read_clat_max = json_data["read"]["clat"]["max"]
+                self.read_clat_avg = json_data["read"]["clat"]["percentile"]["50.000000"]
+                self.write_bw = json_data["write"]["bw"]
+                self.write_iops = json_data["write"]["iops"]
+                self.write_clat_min = json_data["write"]["clat"]["min"]
+                self.write_clat_max = json_data["write"]["clat"]["max"]
+                self.write_clat_avg = json_data["write"]["clat"]["percentile"]["50.000000"]
+                read_runtime = json_data["read"]["runtime"] / 1000
+                write_runtime = json_data["write"]["runtime"] / 1000
+                self.duration = max(read_runtime, write_runtime)
+            except (KeyError, ValueError) as e:
+                log_warn("Something went wrong while parsing file %s " % self.__logfile__)
+                print(e)
 
 
     def get_csv_vars_dict(self):
@@ -295,8 +299,9 @@ def run_tests(disks, bss, sizes, iodepths, read_percents, accesses, csv_filename
                     for bs in bss:
                         for read_percent in read_percents:
                             for access in accesses:
-                                fr = FioRunner(disk, bs, size, iodepth, read_percent, access, fio_template_name,
+                                fr = FioRunner(disk, bs, size, iodepth, read_percent, access,
                                                "storage_tests_logs")
+                                fr.run(fio_template_name)
                                 cvw.add_line(fr.get_csv_vars_dict())
                                 clean_cache()
 

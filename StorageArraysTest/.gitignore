@@ -1,3 +1,4 @@
 .idea
 storage_tests_res.csv
 storage_tests_logs
+*.pyc
