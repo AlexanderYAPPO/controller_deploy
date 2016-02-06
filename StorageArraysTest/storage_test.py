@@ -209,6 +209,7 @@ class FioRunner(TestRunner):
             now = time.time()
             self.res_string = check_output(run_arr, stderr=subprocess.STDOUT)
             self.__duration__ = int(time.time() - now)
+            subprocess.check_call(["sudo", "chmod", "6", self.__logfile__])
         self.__parse_output__()
 
     def __parse_output__(self):
@@ -267,7 +268,7 @@ class CSVWriter(object):
         self.__csv_fmt__ += "%(" + self.__columns__[-1] + ")s\n"
 
     def __enter__(self):
-        self.__f__ = open(self.filename, self.__open_csvf_flag__)
+        self.__f__ = open(self.filename, self.__open_csvf_flag__, 0)
         self.__f__.write(self.__csv_fmt__ % IdDict())
         return self
 
@@ -279,6 +280,7 @@ class CSVWriter(object):
         full_values = self.__csv_empty_dict.copy()
         full_values.update(values)
         self.__f__.write(self.__csv_fmt__ % full_values)
+        self.__f__.flush() # we hardly need it since bufsize=0
 
 # called between tests
 def clean_cache():
