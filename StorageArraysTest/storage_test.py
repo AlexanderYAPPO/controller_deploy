@@ -235,6 +235,7 @@ class FioRunner(TestRunner):
         res = super(FioRunner, self).get_csv_vars_dict()
         res.update({'iodepth': self.__iodepth__,
                     'rw': self.__rw_j2__,
+                    'read_percent': self.__read_percent__,
                     'access': self.__access__,
                     'read_bw' : self.read_bw,
                     'read_iops' : self.read_iops,
@@ -261,9 +262,9 @@ class CSVWriter(object):
         self.__open_csvf_flag__ = open_csvf_flag
         self.__f__ = None
         self.__columns__ = ["start_tm", "duration(sec)", "disk_name", "storage", "raid", "disks", "bs", "size",
-                            "iodepth", "rw", "access", "read_bw", "read_iops", "read_clat_min", "read_clat_max",
-                            "read_clat_avg", "write_bw", "write_iops", "write_clat_min", "write_clat_max",
-                            "write_clat_avg", "logfile"]
+                            "iodepth", "rw", "read_percent", "access", "read_bw", "read_iops", "read_clat_min",
+                            "read_clat_max", "read_clat_avg", "write_bw", "write_iops", "write_clat_min",
+                            "write_clat_max", "write_clat_avg", "logfile"]
 
         self.__csv_empty_dict = dict((c, "") for c in self.__columns__)
         self.__csv_fmt__ =  ""
