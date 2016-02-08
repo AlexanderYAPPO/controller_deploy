@@ -223,8 +223,8 @@ class FioRunner(TestRunner):
                 self.write_clat_min = json_data["write"]["clat"]["min"]
                 self.write_clat_max = json_data["write"]["clat"]["max"]
                 self.write_clat_avg = json_data["write"]["clat"]["percentile"]["50.000000"]
-                read_runtime = json_data["read"]["runtime"] / 1000
-                write_runtime = json_data["write"]["runtime"] / 1000
+                read_runtime = json_data["read"]["runtime"]
+                write_runtime = json_data["write"]["runtime"]
                 self.duration = max(read_runtime, write_runtime)
             except (KeyError, ValueError) as e:
                 log_warn("Something went wrong while parsing file %s " % self.__logfile__)
